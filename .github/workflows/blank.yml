@@ -1,4 +1,4 @@
-name: Build and Commit PDF
+name: Build and Publish PDF
 
 on:
   push:
@@ -7,14 +7,13 @@ on:
   pull_request:
 
 jobs:
-  build-and-commit:
+  build-and-publish:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_PAT }}
           fetch-depth: 0
 
       - name: Compile LaTeX
@@ -29,12 +28,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit PDF
+      - name: Publish PDF to gh-pages
         run: |
+          git checkout --orphan gh-pages 
+          git rm -rf .
           git add main.pdf
-          if ! git diff --cached --quiet; then
-            git commit -m "Update main.pdf [skip ci]"
-            git push
-          else
-            echo "No changes to commit"
-          fi
+          git commit -m "Update main.pdf [skip ci]"
+          git push -f origin gh-pages 

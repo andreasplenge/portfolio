@@ -4,9 +4,19 @@ import yaml
 def getData(type):
     data = []
 
-    for path in Path(f'data/{type}').glob("*.yaml"):
+    if type == "information":
+        path = f'data/general/{type}'
         with path.open() as f:
             data.extend(yaml.safe_load(f))
+
+    if type == "qualifications":
+        path = f'data/general/{type}'
+        with path.open() as f:
+            data.extend(yaml.safe_load(f))
+    if type in ["general", "education"]:
+        for path in Path(f'data/{type}').glob("*.yaml"):
+            with path.open() as f:
+                data.extend(yaml.safe_load(f))
 
     return sorted(
         data,

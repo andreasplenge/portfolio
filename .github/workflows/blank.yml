@@ -1,0 +1,28 @@
+name: Build LaTeX PDF
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX
+        uses: andreasplenge/latex-action@main
+        with:
+          root_file: main.tex
+          compiler: pdflatex
+          output_dir: output
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: pdf-output
+          path: output/main.pdf

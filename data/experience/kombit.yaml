@@ -1,0 +1,21 @@
+- company: KOMBIT
+
+  start: August 2022
+  end: August 2024
+
+  title: IT Consultant
+  promotion: promoted from Student BI Developer, March 2024
+
+  skills: [
+    Python, 
+    R, 
+    Power BI, 
+    Power Query, 
+    Excel, 
+    DAX
+    ]
+
+  description: |
+    Designed dashboards for complex data visualization. Automated data workflows, data quality controls and administrative tasks, to enhance efficiency. Provided technical support, data analysis, and ad hoc problem-solving.
+  
+  id: 1

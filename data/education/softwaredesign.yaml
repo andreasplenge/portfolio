@@ -1,0 +1,12 @@
+- university: IT Univeristy of Copenhagen
+
+  name: Software Design
+
+  degree: MSc
+
+  year: 2024
+  
+  specialization: machine learning
+
+  thesis: Proposed a novel machine learning algorithm for the k-approximate nearest neighbors problem, applying a hierarchical structure to inverted file indexes using k-means clustering.
+  id: 3

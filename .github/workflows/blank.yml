@@ -1,4 +1,4 @@
-name: Build and Publish PDF
+name: Build LaTeX PDF
 
 on:
   push:
@@ -7,31 +7,26 @@ on:
   pull_request:
 
 jobs:
-  build-and-publish:
+  build-pdf:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      # 2️⃣ Compile LaTeX
       - name: Compile LaTeX
         uses: andreasplenge/latex-action@master
         with:
           root_file: main.tex
           compiler: pdflatex
-          output_dir: .
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Publish PDF to gh-pages
-        run: |
-          git checkout --orphan gh-pages 
-          git rm -rf .
-          git add main.pdf
-          git commit -m "Update main.pdf [skip ci]"
-          git push -f origin gh-pages 
+      # 3️⃣ Upload the PDF as an artifact
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-pdf
+          path: main.pdf

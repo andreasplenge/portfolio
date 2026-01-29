@@ -1,4 +1,4 @@
-name: Build LaTeX PDF
+name: Build and Commit PDF
 
 on:
   push:
@@ -7,14 +7,15 @@ on:
   pull_request:
 
 jobs:
-  build-pdf:
+  build-and-commit:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
+      # 1️⃣ Checkout repository with PAT for push access
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GH_PDF_PAT }}
           fetch-depth: 0
 
       # 2️⃣ Compile LaTeX
@@ -24,9 +25,25 @@ jobs:
           root_file: main.tex
           compiler: pdflatex
 
-      # 3️⃣ Upload the PDF as an artifact
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: main-pdf
-          path: main.pdf
+      # 3️⃣ Prepare docs folder and move PDF
+      - name: Move PDF to docs folder
+        run: |
+          mkdir -p docs
+          mv main.pdf docs/main.pdf
+
+      # 4️⃣ Configure Git
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 5️⃣ Commit & push only if PDF changed
+      - name: Commit PDF
+        run: |
+          git add docs/main.pdf
+          if ! git diff --cached --quiet; then
+            git commit -m "Update PDF [skip ci]"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi

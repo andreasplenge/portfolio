@@ -14,7 +14,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          persist-credentials: true  
+          token: ${{ secrets.GH_PAT }}
           fetch-depth: 0
 
       - name: Compile LaTeX
@@ -32,5 +32,9 @@ jobs:
       - name: Commit PDF
         run: |
           git add main.pdf
-          git diff --cached --quiet || git commit -m "Update main.pdf [skip ci]"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Update main.pdf [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi

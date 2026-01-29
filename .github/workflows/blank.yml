@@ -1,4 +1,4 @@
-name: Build LaTeX PDF
+name: Build and Commit PDF
 
 on:
   push:
@@ -7,22 +7,30 @@ on:
   pull_request:
 
 jobs:
-  build-pdf:
+  build-and-commit:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true  
+          fetch-depth: 0
 
       - name: Compile LaTeX
         uses: andreasplenge/latex-action@master
         with:
           root_file: main.tex
           compiler: pdflatex
-          output_dir: output
+          output_dir: .
 
-      - name: Upload PDF
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf-output
-          path: output/main.pdf
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit PDF
+        run: |
+          git add main.pdf
+          git diff --cached --quiet || git commit -m "Update main.pdf [skip ci]"
+          git push

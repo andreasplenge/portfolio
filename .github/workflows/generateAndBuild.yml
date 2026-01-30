@@ -18,26 +18,41 @@ jobs:
           token: ${{ secrets.GH_PDF_PAT }}
           fetch-depth: 0
 
-      # 2️⃣ Compile LaTeX
+      # 2️⃣ Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'  # or your version
+
+      # 3️⃣ Install dependencies if needed
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt || echo "No requirements.txt found"
+
+      # 4️⃣ Generate cv.tex
+      - name: Generate LaTeX file
+        run: python generator.py
+
+      # 5️⃣ Compile LaTeX
       - name: Compile LaTeX
         uses: andreasplenge/latex-action@master
         with:
-          root_file: main.tex
+          root_file: cv.tex
           compiler: pdflatex
 
-      # 3️⃣ Prepare public folder and move PDF
+      # 6️⃣ Prepare public folder and move PDF
       - name: Move PDF to public folder
         run: |
           mkdir -p public
           mv AndreasPlenge_CV.pdf public/AndreasPlenge_CV.pdf
 
-      # 4️⃣ Configure Git
+      # 7️⃣ Configure Git
       - name: Configure Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 5️⃣ Commit & push only if PDF changed
+      # 8️⃣ Commit & push only if PDF changed
       - name: Commit PDF
         run: |
           git add public/AndreasPlenge_CV.pdf
@@ -46,4 +61,3 @@ jobs:
             git push origin main
           else
             echo "No changes to commit"
-          fi

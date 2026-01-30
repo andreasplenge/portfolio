@@ -44,7 +44,7 @@ jobs:
       - name: Move PDF to public folder
         run: |
           mkdir -p public
-          mv AndreasPlenge_CV.pdf public/AndreasPlenge_CV.pdf
+          mv cv.pdf public/AndreasPlenge_CV.pdf
 
       # 7️⃣ Configure Git
       - name: Configure Git

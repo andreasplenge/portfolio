@@ -1,5 +1,5 @@
 from getData import getData
-from formatSection import formatExperience, formatEducation
+from formatSection import formatExperience, formatEducation, formatQualifications, formatInformation
 
 experiences = getData("experience")
 educations = getData("education")
@@ -87,9 +87,9 @@ with open("cv.tex", "w") as out:
 
 \vspace*{0.5ex}
 """)
-    out.write(formatExperience(information))
+    out.write(formatInformation(information))
 
-    out.write(formatExperience(qualifications))
+    out.write(formatQualifications(qualifications))
 
 
     out.write(r"""

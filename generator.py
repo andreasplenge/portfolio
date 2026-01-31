@@ -64,7 +64,7 @@ with open("cv.tex", "w") as out:
 \raggedbottom
 
 % ================= LEFT COLUMN =================
-\begin{minipage}[t]{0.32\textwidth}
+\begin{minipage}[t]{0.27\textwidth}
 
 \colorbox{cvbg}{%
   \begin{minipage}[t]{\textwidth}

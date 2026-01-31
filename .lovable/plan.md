@@ -123,7 +123,7 @@ def formatQualifications(qualifications):
 **Left column structure (around lines 69-89):**
 ```latex
 \begin{minipage}[t]{0.33\textwidth}
-\colorbox{cvblue}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
+\colorbox{white}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
 
 \vspace{-.2ex}
 \colorbox{cvbg!90}{\color{cvtext}

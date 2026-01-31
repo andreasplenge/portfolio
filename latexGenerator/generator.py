@@ -68,7 +68,7 @@ def generateLatexFile():
     % ================= LEFT COLUMN =================
     \begin{minipage}[t]{0.35\textwidth}
 
-    \colorbox{cvblue}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
+    \colorbox{white}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
 
     \vspace{-.2ex}
     \colorbox{white}{\color{black}    \kern0.09\textwidth\relax
@@ -85,6 +85,10 @@ def generateLatexFile():
         out.write(formatQualifications(qualifications))
 
         out.write(r"""
+    \headleft{}
+    \textbf{References are available upon request}
+
+
     \end{minipage}%
     \kern0.09\textwidth\relax
     }

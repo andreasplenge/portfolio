@@ -14,7 +14,7 @@ def generateLatexFile():
     \usepackage[T1]{fontenc}
     \usepackage[utf8]{inputenc}
     \usepackage[english]{babel}
-    \usepackage[left=8mm, right=8mm, top=6mm, bottom=6mm]{geometry}
+    \usepackage[left=0mm, right=0mm, top=0mm, bottom=0mm]{geometry}
     \usepackage[stretch=25, shrink=25, tracking=true, letterspace=30]{microtype}
     \usepackage{graphicx}
     \usepackage{xcolor}
@@ -71,8 +71,7 @@ def generateLatexFile():
     \colorbox{cvblue}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
 
     \vspace{-.2ex}
-    \colorbox{cvblue!90}{\color{white}
-    \kern0.09\textwidth\relax
+    \colorbox{white}{\color{black}    \kern0.09\textwidth\relax
     \begin{minipage}[t][293mm][t]{0.82\textwidth}
     \raggedright
     \vspace*{2.5ex}

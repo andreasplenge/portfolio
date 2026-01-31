@@ -7,19 +7,20 @@ def formatExperience(experience):
     skills = experience["skills"]
     description = experience["description"]
 
-    promotion_tex = f" \\grayed{{{promotion}}}" if promotion else ""
+    promotion_tex = (
+        f" \\grayed{{{promotion}}}" if promotion else ""
+    )
+
     skills_tex = ", ".join(skills)
 
-    return rf"""
-{{\large\textbf{{{company}}}}}\dates{{{start} -- {end}}}
+    return f"""
+{{\\large\\textbf{{{company}}}}}\\dates{{{start} -- {end}}}
 
-\textbf{{{title}}}{promotion_tex}
-
-{description}
-
-\smaller{{{skills_tex}}}
+\\textbf{{{title}}}{promotion_tex} \\\\
+\\\\
+{description}\\\\
+\\smaller{{{skills_tex}}}\\\\
 """
-
 
 def formatEducation(education):
     university = education["university"]
@@ -30,23 +31,17 @@ def formatEducation(education):
     thesis = education["thesis"]
 
     specialization_tex = (
-        rf"\item Specialization in \textbf{{{specialization}}}"
+        f"    \\item Specialization in \\textbf{{{specialization}}}\n"
         if specialization else ""
     )
 
-    thesis_tex = rf"\item \textbf{{Thesis:}} {thesis}"
+    thesis_tex = f"    \\item \\textbf{{Thesis:}} {thesis}"
 
-    items = "\n".join(
-        item for item in [specialization_tex, thesis_tex] if item
-    )
+    return f"""
+    {{\\large {degree} in \\textbf{{{name}}}}} \\dates{{{year}}}
 
-    return rf"""
-{{\large {degree} in \textbf{{{name}}}}}\dates{{{year}}}
-
-at {university}
-
-\begin{{itemize}}
-{items}
-\end{{itemize}}
-"""
-
+    at {university}
+    \\begin{{itemize}}
+    {specialization_tex}{thesis_tex}
+    \\end{{itemize}}
+    """

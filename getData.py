@@ -13,7 +13,7 @@ def getData(type):
         path = f'data/general/{type}'
         with path.open() as f:
             data.extend(yaml.safe_load(f))
-    if type in ["general", "education"]:
+    if type in ["experience", "education"]:
         for path in Path(f'data/{type}').glob("*.yaml"):
             with path.open() as f:
                 data.extend(yaml.safe_load(f))

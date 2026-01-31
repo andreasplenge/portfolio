@@ -89,7 +89,7 @@ def formatQualifications(qualifications):
     for skill in skills:
         skillsCode = skillsCode + f'\\item {skill}'
 
-    f"""
+    return f"""
     \\headleft{{Languages}}
     {languagesCode}
     \\end{{itemize}}

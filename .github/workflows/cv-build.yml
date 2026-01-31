@@ -31,7 +31,7 @@ jobs:
 
       # 4️⃣ Generate cv.tex
       - name: Generate LaTeX file
-        run: python generator.py
+        run: python cv-main.py
 
       # 5️⃣ Compile LaTeX
       - name: Compile LaTeX

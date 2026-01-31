@@ -27,7 +27,7 @@ jobs:
       # 3️⃣ Install dependencies if needed
       - name: Install Python dependencies
         run: |
-          pip install -r requirements.txt || echo "No requirements.txt found"
+          pip install -r cv-requirements.txt || echo "No cv-requirements.txt found"
 
       # 4️⃣ Generate cv.tex
       - name: Generate LaTeX file

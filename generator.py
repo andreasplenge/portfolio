@@ -5,6 +5,7 @@ experiences = getData("experience")
 educations = getData("education")
 
 with open("cv.tex", "w") as out:
+
     out.write(r"""
 \documentclass[11pt, a4paper]{article}
 
@@ -16,8 +17,10 @@ with open("cv.tex", "w") as out:
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{marvosym}
+
 \usepackage{enumitem}
-\setlist{parsep=0pt, topsep=0pt, partopsep=0pt, itemsep=0.3pt, leftmargin=6mm}
+\setlist{parsep=0pt, topsep=0pt, partopsep=0pt, itemsep=0.5pt, leftmargin=6mm}
+
 \usepackage{FiraSans}
 \renewcommand{\familydefault}{\sfdefault}
 
@@ -32,17 +35,17 @@ with open("cv.tex", "w") as out:
 \newcommand{\smaller}[1]{\small$\diamond$\ #1}
 
 \newcommand{\headleft}[1]{%
-  \vspace*{1.5ex}%
+  \vspace*{1ex}%
   \textsc{\textbf{#1}}\par
-  \vspace*{-1ex}%
+  \vspace*{-0.8ex}%
   \color{cvblue}\hrulefill\par
   \vspace*{0.3ex}%
 }
 
 \newcommand{\headright}[1]{%
-  \vspace*{1ex}%
+  \vspace*{1.5ex}%
   \textsc{\large\color{cvblue}#1}\par
-  \vspace*{-1ex}%
+  \vspace*{-1.5ex}%
   {\color{cvblue}\hrulefill}\par
 }
 
@@ -50,25 +53,37 @@ with open("cv.tex", "w") as out:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[colorlinks=true, urlcolor=cvblue, linkcolor=cvblue]{hyperref}
-\usepackage{paracol}
 
 \begin{document}
-\pagestyle{empty}
+
+\setlength{\topskip}{0pt}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0pt}
-\setlength{\topskip}{0pt}
 \setlength{\fboxsep}{0pt}
-
-\begin{paracol}{2}
-\setcolumnwidth{0.32\textwidth,0.68\textwidth}
+\pagestyle{empty}
+\raggedbottom
 
 % ================= LEFT COLUMN =================
-\switchcolumn*
-\small
-\color{cvtext}
-\raggedright
+\begin{minipage}[t]{0.32\textwidth}
 
-\includegraphics[width=0.8\linewidth]{public/sign.png}
+\colorbox{cvbg}{%
+  \begin{minipage}[t]{\textwidth}
+    \null\hfill\null
+  \end{minipage}
+}
+
+\vspace{-0.2ex}
+
+\colorbox{cvbg!90}{%
+\color{cvtext}
+\begin{minipage}[t]{\textwidth}
+\small
+\raggedright
+\vspace*{1.5ex}
+
+\includegraphics[width=0.8\textwidth]{public/sign.png}
+
+\vspace*{0.5ex}
 
 \headleft{Algo \& Quant Engineer}
 
@@ -87,13 +102,13 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \href{https://www.linkedin.com/in/andreasplenge}{LinkedIn/andreasplenge}
 
 \headleft{Languages}
-\begin{itemize}[itemsep=0.2pt]
+\begin{itemize}
   \item Danish --- Native
   \item English --- Fluent
 \end{itemize}
 
 \headleft{Programming Languages}
-\begin{itemize}[itemsep=0.2pt]
+\begin{itemize}
   \item Python \& R
   \item NoSQL \& SQL
   \item TypeScript \& JavaScript
@@ -102,7 +117,7 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \end{itemize}
 
 \headleft{Tools \& Frameworks}
-\begin{itemize}[itemsep=0.2pt]
+\begin{itemize}
   \item Power BI
   \item Excel
   \item Pandas, NumPy \& TensorFlow
@@ -110,7 +125,7 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \end{itemize}
 
 \headleft{Skills}
-\begin{itemize}[itemsep=0.2pt]
+\begin{itemize}
   \item Algorithm Optimization
   \item Query Optimization
   \item Data Visualization
@@ -121,17 +136,29 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \headleft{}
 \textbf{References are available upon request}
 
-% ================= RIGHT COLUMN =================
-\switchcolumn
-\small
-\setlength{\parskip}{0.7ex}
+\end{minipage}
+}
 
+\end{minipage}
+\hspace{0.01\textwidth}
+              
+% ================= RIGHT COLUMN =================
+\begin{minipage}[t]{0.65\textwidth}
+\setlength{\parskip}{0.7ex}
+\small
+
+\vspace{1ex}
+""")
+
+    # ---- Work Experience ----
+    out.write(r"""
 \headright{Work Experience}
 """)
 
     for experience in experiences:
         out.write(formatExperience(experience))
 
+    # ---- Education ----
     out.write(r"""
 \headright{Education}
 """)
@@ -140,6 +167,6 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
         out.write(formatEducation(education))
 
     out.write(r"""
-\end{paracol}
+\end{minipage}
 \end{document}
 """)

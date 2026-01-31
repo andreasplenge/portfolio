@@ -1,0 +1,59 @@
+- reference_id: 2
+  header: BEAM - Grid Stabilization
+
+  introduction: |
+    The system is a real-time, multi-device energy control platform designed to manage distributed heating and energy assets efficiently. It aggregates heterogeneous devices ranging from 1 kW to 50 kW into pools of up to 500 kW, maintaining precise capacity targets within ±5% / +15% in under 3 seconds. The system ensures operational safety, device longevity, and business logic integration while optimizing asset usage.
+  
+  description: |
+    Device Aggregation and Allocation
+    Device normalization: 
+    Heterogeneous devices are grouped and scaled to enable fair comparison and allocation.
+
+    Optimal selection: 
+    For each target setpoint, the system calculates the optimal combination of devices to meet the desired aggregate capacity.
+    
+    Constraints management:
+    Device cycling is minimized to prevent wear.
+    Activation times and historical usage are tracked for prioritization.
+    Normal device operations and safety limits are always respected.
+    Micro-device aggregation: Very small devices are pooled to contribute meaningfully to the total capacity.
+    
+    Real-Time Control
+    Rapid response: Target capacities from 0 to 500 kW are achieved within 2–3 seconds.
+    Dynamic reallocation: Devices are continuously reselected based on availability, state, and operational constraints to maintain stable aggregate output.
+    Distributed execution: Each device executes its allocated contribution via local controllers while adhering to physical and operational constraints.
+    
+    Integration   
+    IoT Device Integration:
+    Integrated with Shelly devices and thermostats of water heaters.
+    Thermostat control is bypassed safely, preserving overcooking relays and normal operation.
+    Hardware Control:
+    Designed custom electrical boards for controlling buffer tanks in heat pumps, ensuring reliable operation while respecting safety constraints.
+
+    Business Logic
+    Full ecosystem mapping:
+    Installer → Contract → Device → Customer → Address → Rewards.
+    Ensures that operational performance ties directly to installer incentives and contract fulfillment.
+    Reward calculation: Tracks device contributions in real-time to properly allocate financial rewards and operational credits.
+
+    Team & Development
+    Developed by a team of 3 engineers, covering full-stack development including
+    Backend control logic
+    Hardware integration
+    Real-time distributed optimization
+    Business and financial logic
+    
+    Key Features
+    High-speed, multi-device aggregation and allocation
+    Optimal device selection under constraints
+    Minimization of device wear and cycling
+    Safe integration with existing thermostats and relays
+    Scalable aggregation of small devices
+    Real-time business logic and reward mapping
+    Predictable, repeatable performance with < 3 second response time
+
+    Impact
+    Provides a highly reliable, fast, and efficient energy management system.
+    Balances operational efficiency, safety, and asset longevity.
+    Directly ties technical operations to business value via rewards and installer incentives.
+    Enables the deployment of virtual power plant capabilities with heterogeneous devices.

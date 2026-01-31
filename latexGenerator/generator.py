@@ -66,7 +66,7 @@ def generateLatexFile():
     \raggedbottom
 
     % ================= LEFT COLUMN =================
-    \begin{minipage}[t]{0.33\textwidth}
+    \begin{minipage}[t]{0.35\textwidth}
 
     \colorbox{cvblue}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
 
@@ -85,18 +85,14 @@ def generateLatexFile():
 
         out.write(formatQualifications(qualifications))
 
-
         out.write(r"""
-    \headleft{}
-    \textbf{References are available upon request}
-
     \end{minipage}%
     \kern0.09\textwidth\relax
     }
     \end{minipage}%
     \hskip2.5em
     % ================= RIGHT COLUMN =================
-    \begin{minipage}[t]{0.56\textwidth}
+    \begin{minipage}[t]{0.54\textwidth}
     \setlength{\parskip}{0.7ex}
     \small
 

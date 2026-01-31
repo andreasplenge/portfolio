@@ -45,3 +45,66 @@ def formatEducation(education):
     {specialization_tex}{thesis_tex}
     \\end{{itemize}}
     """
+
+def formatInformation(information):
+    linkedin = information["linkedin"]
+    email = information["email"]
+    identity = information["identity"]
+    description = information["description"]
+
+    return f"""
+    \\headleft{{{identity}}}
+    {description}
+
+    \\headleft{{Contact Information}}
+
+    \\href{{mailto:{email}}}{{{email}}}
+
+    \\href{{https://www.linkedin.com/in/{linkedin}}}{{LinkedIn/{linkedin}}}
+    """
+
+def formatQualifications(qualifications):
+    native_language = qualifications["native_language"]
+    fluent_languages = qualifications["fluent_languages"]
+    professional_language = qualifications["professional_language"]
+    programming = qualifications["programming"]
+    tools = qualifications["tools"]
+    skills = qualifications["skills"]
+
+    languagesCode = f'\\item {native_language} --- Native'
+    for language in fluent_languages:
+        languagesCode = languagesCode + f'\\item {language} --- Fluent'
+    for language in professional_language:
+        languagesCode = languagesCode + f'\\item {language} --- Professional'
+
+    programmingCode = ""
+    for programmingLanguage in programming:
+        programmingCode = programmingCode + f'\\item {programmingLanguage}'
+
+    toolsCode = ""
+    for tool in tools:
+        toolsCode = toolsCode + f'\\item {tool}'
+
+    skillsCode = ""
+    for skill in skills:
+        skillsCode = skillsCode + f'\\item {skill}'
+
+    f"""
+    \\headleft{{Languages}}
+    {languagesCode}
+    \\end{{itemize}}
+
+    \\headleft{{Programming Languages}}
+    \\begin{{itemize}}
+    {programmingCode}
+    \\end{{itemize}}
+
+    \\headleft{{Tools \\& Frameworks}}
+    {toolsCode}
+    \\end{{itemize}}
+
+    \\headleft{{Skills}}
+    \begin{{itemize}}
+    {skillsCode}
+    \\end{{itemize}}
+    """

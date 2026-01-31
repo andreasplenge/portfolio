@@ -3,6 +3,8 @@ from formatSection import formatExperience, formatEducation
 
 experiences = getData("experience")
 educations = getData("education")
+qualifications = getData("qualifications")
+information = getData("information")
 
 with open("cv.tex", "w") as out:
 
@@ -84,55 +86,13 @@ with open("cv.tex", "w") as out:
 \includegraphics[width=0.8\textwidth]{public/sign.png}
 
 \vspace*{0.5ex}
+""")
+    out.write(formatExperience(information))
 
-\headleft{Algo \& Quant Engineer}
+    out.write(formatExperience(qualifications))
 
-Engineer with experience in stabilizing the energy grid. I combine a hybrid background
-in mathematics and software engineering to design scalable analytical tools and model
-complex systems. I have a strong foundation in dynamical systems, probability, and
-programming, and I am motivated by solving data-driven problems in performance-sensitive
-environments, particularly those involving uncertainty, forecasting, and optimization.
 
-\headleft{Contact Information}
-
-\href{mailto:andreas.p.andreasen@gmail.com}{andreas.p.andreasen@gmail.com}
-
-+45\,52\,99\,06\,66
-
-\href{https://www.linkedin.com/in/andreasplenge}{LinkedIn/andreasplenge}
-
-\headleft{Languages}
-\begin{itemize}
-  \item Danish --- Native
-  \item English --- Fluent
-\end{itemize}
-
-\headleft{Programming Languages}
-\begin{itemize}
-  \item Python \& R
-  \item NoSQL \& SQL
-  \item TypeScript \& JavaScript
-  \item DAX \& M (Power Query)
-  \item Java
-\end{itemize}
-
-\headleft{Tools \& Frameworks}
-\begin{itemize}
-  \item Power BI
-  \item Excel
-  \item Pandas, NumPy \& TensorFlow
-  \item Power Automate
-\end{itemize}
-
-\headleft{Skills}
-\begin{itemize}
-  \item Algorithm Optimization
-  \item Query Optimization
-  \item Data Visualization
-  \item Programming
-  \item Problem-Solving
-\end{itemize}
-
+    out.write(r"""
 \headleft{}
 \textbf{References are available upon request}
 

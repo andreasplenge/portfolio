@@ -143,7 +143,7 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \hfill
 
 % ================= RIGHT COLUMN =================
-\begin{minipage}[t]{0.65\textwidth}
+\begin{minipage}[t]{0.63\textwidth}
 \setlength{\parskip}{0.7ex}
 \small
 

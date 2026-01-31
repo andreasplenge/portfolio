@@ -81,7 +81,8 @@ with open("cv.tex", "w") as out:
 \raggedright
 \vspace*{1.5ex}
 
-\Large Andreas \textbf{\textsc{Plenge}} \normalsize
+#\Large Andreas \textbf{\textsc{Plenge}} \normalsize
+\includegraphics[width=0.4\textwidth]{public/sign.png}
 
 \vspace*{0.5ex}
 

@@ -3,8 +3,8 @@ from formatSection import formatExperience, formatEducation, formatQualification
 
 experiences = getData("experience")
 educations = getData("education")
-qualifications = getData("qualifications")
-information = getData("information")
+qualifications = getData("qualifications")[0]
+information = getData("information")[0]
 
 with open("cv.tex", "w") as out:
 

@@ -90,21 +90,23 @@ def formatQualifications(qualifications):
         skillsCode = skillsCode + f'\\item {skill}'
 
     return f"""
-    \\headleft{{Languages}}
-    {languagesCode}
-    \\end{{itemize}}
+\\headleft{{Languages}}
+\\begin{{itemize}}
+{languagesCode}
+\\end{{itemize}}
 
-    \\headleft{{Programming Languages}}
-    \\begin{{itemize}}
-    {programmingCode}
-    \\end{{itemize}}
+\\headleft{{Programming Languages}}
+\\begin{{itemize}}
+{programmingCode}
+\\end{{itemize}}
 
-    \\headleft{{Tools and Frameworks}}
-    {toolsCode}
-    \\end{{itemize}}
+\\headleft{{Tools and Frameworks}}
+\\begin{{itemize}}
+{toolsCode}
+\\end{{itemize}}
 
-    \\headleft{{Skills}}
-    \begin{{itemize}}
-    {skillsCode}
-    \\end{{itemize}}
-    """
+\\headleft{{Skills}}
+\\begin{{itemize}}
+{skillsCode}
+\\end{{itemize}}
+"""

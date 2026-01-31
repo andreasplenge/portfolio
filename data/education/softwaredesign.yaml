@@ -4,5 +4,15 @@
   degree: MSc
   year: 2024
   specialization: machine learning
-  thesis: Proposed a novel machine learning algorithm for the k-approximate nearest neighbors problem, applying a hierarchical structure to inverted file indexes using k-means clustering.
+  thesis: Proposed a machine learning algorithm for the k-approximate nearest neighbors problem, applying a hierarchical structure to inverted file indexes using k-means clustering.
+  programming:
+    - Python
+    - Java
+  tools:
+    - TensorFlow
+    - Numpy
+  skills:
+    - Machine Learning
+    - Algorithm Design
+    - Data Structures
   id: 3

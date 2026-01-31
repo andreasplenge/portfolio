@@ -1,4 +1,4 @@
-import { Linkedin, Mail, ExternalLink, MapPin, Github } from "lucide-react";
+import { Linkedin, Mail, ExternalLink, MapPin, Github, Download } from "lucide-react";
 import GeometricBackground from "@/components/GeometricBackground";
 import { Link } from "react-router-dom";
 import {
@@ -33,11 +33,30 @@ const CV = () => {
     ? new Date(generalInfo.last_compiled).toISOString().split('T')[0]
     : new Date().toISOString().split('T')[0];
 
-  // Get only highlighted skills for the main CV page
-  const highlightedLanguages = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'language') : [];
-  const highlightedDomains = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'domain') : [];
-  const highlightedTheory = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'theory') : [];
-  const highlightedTools = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'tool') : [];
+  // Get skills from qualifications (highlighted ones)
+  const qualLanguages = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'language') : [];
+  const qualTools = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'tool') : [];
+  const qualSkills = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'skill') : [];
+
+  // Get skills from all experiences
+  const expProgramming = experience?.flatMap(e => e.programming_skills || []) || [];
+  const expTools = experience?.flatMap(e => e.tool_skills || []) || [];
+  const expDomainSkills = experience?.flatMap(e => e.domain_skills || []) || [];
+
+  // Get skills from all projects
+  const projProgramming = selectedWork?.flatMap(p => p.programming_skills || []) || [];
+  const projTools = selectedWork?.flatMap(p => p.tool_skills || []) || [];
+  const projDomainSkills = selectedWork?.flatMap(p => p.domain_skills || []) || [];
+
+  // Get skills from all education
+  const eduProgramming = education?.flatMap(e => e.programming_skills || []) || [];
+  const eduTools = education?.flatMap(e => e.tool_skills || []) || [];
+  const eduDomainSkills = education?.flatMap(e => e.domain_skills || []) || [];
+
+  // Combine and dedupe all skills
+  const allProgramming = [...new Set([...qualLanguages, ...expProgramming, ...projProgramming, ...eduProgramming])];
+  const allTools = [...new Set([...qualTools, ...expTools, ...projTools, ...eduTools])];
+  const allSkills = [...new Set([...qualSkills, ...expDomainSkills, ...projDomainSkills, ...eduDomainSkills])];
 
   // Build sections array with only sections that have content
   const sections: { title: string; content: React.ReactNode }[] = [];
@@ -49,66 +68,6 @@ const CV = () => {
         <p className="text-muted-foreground leading-relaxed max-w-2xl whitespace-pre-line">
           {generalInfo.summary}
         </p>
-      ),
-    });
-  }
-
-  const hasHighlightedDomains = highlightedLanguages.length > 0 || highlightedDomains.length > 0 || highlightedTheory.length > 0 || highlightedTools.length > 0;
-
-  if (hasHighlightedDomains) {
-    sections.push({
-      title: "Technical Domain",
-      content: (
-        <div className="grid md:grid-cols-2 gap-8">
-          {highlightedLanguages.length > 0 && (
-            <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">LANGUAGES</h4>
-              <div className="flex flex-wrap gap-2">
-                {highlightedLanguages.map((lang) => (
-                  <span key={lang} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
-                    {lang}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {highlightedDomains.length > 0 && (
-            <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">DOMAINS</h4>
-              <div className="flex flex-wrap gap-2">
-                {highlightedDomains.map((domain) => (
-                  <span key={domain} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
-                    {domain}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {highlightedTheory.length > 0 && (
-            <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">THEORY</h4>
-              <div className="flex flex-wrap gap-2">
-                {highlightedTheory.map((t) => (
-                  <span key={t} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-          {highlightedTools.length > 0 && (
-            <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS</h4>
-              <div className="flex flex-wrap gap-2">
-                {highlightedTools.map((tool) => (
-                  <span key={tool} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
       ),
     });
   }
@@ -167,6 +126,11 @@ const CV = () => {
                 <div>
                   <h4 className="font-medium">{edu.degree}</h4>
                   <p className="text-muted-foreground text-sm">{edu.institution}</p>
+                  {edu.specialization && (
+                    <p className="text-muted-foreground text-sm">
+                      <span className="font-mono text-xs">Specialization:</span> {edu.specialization}
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="font-mono text-sm text-muted-foreground">{edu.year}</span>
@@ -219,6 +183,54 @@ const CV = () => {
     });
   }
 
+  const hasSkills = allProgramming.length > 0 || allTools.length > 0 || allSkills.length > 0;
+
+  if (hasSkills) {
+    sections.push({
+      title: "Technical Stack",
+      content: (
+        <div className="grid md:grid-cols-2 gap-8">
+          {allProgramming.length > 0 && (
+            <div>
+              <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+              <div className="flex flex-wrap gap-2">
+                {allProgramming.map((lang) => (
+                  <span key={lang} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                    {lang}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {allTools.length > 0 && (
+            <div>
+              <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+              <div className="flex flex-wrap gap-2">
+                {allTools.map((tool) => (
+                  <span key={tool} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {allSkills.length > 0 && (
+            <div>
+              <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+              <div className="flex flex-wrap gap-2">
+                {allSkills.map((skill) => (
+                  <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ),
+    });
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <GeometricBackground />
@@ -259,6 +271,16 @@ const CV = () => {
                   <MapPin className="w-4 h-4" />
                   <span className="font-mono">{generalInfo.location}</span>
                 </div>
+              )}
+              {generalInfo?.cv_pdf_link && (
+                <a 
+                  href={generalInfo.cv_pdf_link} 
+                  download 
+                  className="flex items-center gap-2 hover:text-foreground transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                  <span className="font-mono">Download CV</span>
+                </a>
               )}
             </div>
           </div>

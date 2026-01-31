@@ -1,12 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink, Calendar } from "lucide-react";
 import GeometricBackground from "@/components/GeometricBackground";
-import { useCVEducationById, useCVTechnicalDomains, getSkillsByType } from "@/hooks/use-cv-data";
+import { useCVEducationById } from "@/hooks/use-cv-data";
 
 const EducationDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: education, isLoading } = useCVEducationById(id);
-  const { data: technicalDomains } = useCVTechnicalDomains();
 
   if (isLoading) {
     return (
@@ -29,57 +28,28 @@ const EducationDetail = () => {
     );
   }
 
-  // Collect all unique tags from related projects
-  const projectTags = education.related_projects.flatMap((p) => p.tags || []);
-  
-  // Collect technical domain items from structured coursework
-  const courseworkDomainItems = education.structured_coursework
-    .filter((c) => c.technical_domain && c.technical_domain_item)
-    .map((c) => ({ domain: c.technical_domain!, item: c.technical_domain_item! }));
+  // Collect categorized skills from related projects directly (no global matching)
+  const projectProgramming = education.related_projects.flatMap((p) => p.programming_skills || []);
+  const projectTools = education.related_projects.flatMap((p) => p.tool_skills || []);
+  const projectDomainSkills = education.related_projects.flatMap((p) => p.domain_skills || []);
 
-  // Get all skills by type from technical domains
-  const languages = technicalDomains ? getSkillsByType(technicalDomains, 'language') : [];
-  const domains = technicalDomains ? getSkillsByType(technicalDomains, 'domain') : [];
-  const theory = technicalDomains ? getSkillsByType(technicalDomains, 'theory') : [];
-  const tools = technicalDomains ? getSkillsByType(technicalDomains, 'tool') : [];
-
-  // Combine project tags and coursework domain items
   const categorizedTags = {
-    languages: [
-      ...new Set([
-        ...projectTags.filter((t) => languages.includes(t)),
-        ...courseworkDomainItems.filter((c) => c.domain === 'language').map((c) => c.item),
-      ])
-    ],
-    domains: [
-      ...new Set([
-        ...projectTags.filter((t) => domains.includes(t)),
-        ...courseworkDomainItems.filter((c) => c.domain === 'domain').map((c) => c.item),
-      ])
-    ],
-    theory: [
-      ...new Set([
-        ...projectTags.filter((t) => theory.includes(t)),
-        ...courseworkDomainItems.filter((c) => c.domain === 'theory').map((c) => c.item),
-      ])
-    ],
-    tools: [
-      ...new Set([
-        ...projectTags.filter((t) => tools.includes(t)),
-        ...courseworkDomainItems.filter((c) => c.domain === 'tool').map((c) => c.item),
-      ])
-    ],
-    other: projectTags.filter(
-      (t) => !languages.includes(t) && !domains.includes(t) && !theory.includes(t) && !tools.includes(t)
-    ).filter((t, i, arr) => arr.indexOf(t) === i),
+    programming: [...new Set(projectProgramming)],
+    tools: [...new Set(projectTools)],
+    skills: [...new Set(projectDomainSkills)],
   };
 
   const hasCategories =
-    categorizedTags.languages.length > 0 ||
-    categorizedTags.domains.length > 0 ||
-    categorizedTags.theory.length > 0 ||
+    categorizedTags.programming.length > 0 ||
     categorizedTags.tools.length > 0 ||
-    categorizedTags.other.length > 0;
+    categorizedTags.skills.length > 0;
+
+  // Education's own skills (from YAML)
+  const eduProgramming = (education as any).programming_skills || [];
+  const eduTools = (education as any).tool_skills || [];
+  const eduSkills = (education as any).domain_skills || [];
+  
+  const hasEducationSkills = eduProgramming.length > 0 || eduTools.length > 0 || eduSkills.length > 0;
 
   // Calculate section indices dynamically
   let sectionIndex = 0;
@@ -125,6 +95,12 @@ const EducationDetail = () => {
               <span className="font-mono">{education.honours}</span>
             )}
           </div>
+          {education.specialization && (
+            <p className="text-muted-foreground">
+              <span className="font-mono text-xs text-muted-foreground">Specialization: </span>
+              {education.specialization}
+            </p>
+          )}
           {education.thesis && (
             <p className="text-muted-foreground leading-relaxed max-w-2xl">
               <span className="font-mono text-xs text-muted-foreground">Thesis: </span>
@@ -133,54 +109,15 @@ const EducationDetail = () => {
           )}
         </header>
 
-        {/* Overview (full_description) */}
-        {education.full_description && (
-          <Section title="Overview" index={getNextIndex()}>
-            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-              {education.full_description}
-            </p>
-          </Section>
-        )}
-
         {/* Technical Stack from related projects */}
         {hasCategories && (
           <Section title="Technical Stack" index={getNextIndex()}>
             <div className="grid md:grid-cols-2 gap-8">
-              {categorizedTags.languages.length > 0 && (
+              {categorizedTags.programming.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">LANGUAGES</h4>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
                   <div className="flex flex-wrap gap-2">
-                    {categorizedTags.languages.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.domains.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">DOMAINS</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.domains.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.theory.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">THEORY</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.theory.map((tag) => (
+                    {categorizedTags.programming.map((tag) => (
                       <span
                         key={tag}
                         className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
@@ -193,7 +130,7 @@ const EducationDetail = () => {
               )}
               {categorizedTags.tools.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS</h4>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
                   <div className="flex flex-wrap gap-2">
                     {categorizedTags.tools.map((tag) => (
                       <span
@@ -206,11 +143,11 @@ const EducationDetail = () => {
                   </div>
                 </div>
               )}
-              {categorizedTags.other.length > 0 && (
+              {categorizedTags.skills.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">OTHER</h4>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
                   <div className="flex flex-wrap gap-2">
-                    {categorizedTags.other.map((tag) => (
+                    {categorizedTags.skills.map((tag) => (
                       <span
                         key={tag}
                         className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
@@ -269,6 +206,59 @@ const EducationDetail = () => {
                 </li>
               ))}
             </ul>
+          </Section>
+        )}
+
+        {/* Education's Own Technical Stack */}
+        {hasEducationSkills && (
+          <Section title="Skills & Tools" index={getNextIndex()}>
+            <div className="grid md:grid-cols-2 gap-8">
+              {eduProgramming.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {eduProgramming.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {eduTools.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {eduTools.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {eduSkills.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {eduSkills.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </Section>
         )}
 

@@ -69,15 +69,6 @@ const ProjectDetail = () => {
           <p className="text-lg text-muted-foreground font-light max-w-2xl">
             {project.description}
           </p>
-          {project.tags && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-6">
-              {project.tags.map((tag) => (
-                <span key={tag} className="px-3 py-1 border border-border text-sm font-mono">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
         </header>
 
         {/* Project Content - Overview */}
@@ -150,23 +141,6 @@ const ProjectDetail = () => {
           </section>
         )}
 
-        {project.tech_stack && project.tech_stack.length > 0 && (
-          <section className="mb-12">
-            <div className="flex items-baseline gap-4 mb-6">
-              <span className="font-mono text-xs text-muted-foreground">{getNextSection()}</span>
-              <h2 className="text-xl font-light tracking-wide">Tech Stack</h2>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {project.tech_stack.map((tech) => (
-                <span key={tech} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
-
         {project.link && (
           <section className="mb-12">
             <div className="flex items-baseline gap-4 mb-6">
@@ -182,6 +156,57 @@ const ProjectDetail = () => {
             >
               → {project.link}
             </a>
+          </section>
+        )}
+
+        {/* Technical Stack - Using categorized skills from data */}
+        {(project.programming_skills?.length > 0 || 
+          project.tool_skills?.length > 0 || 
+          project.domain_skills?.length > 0) && (
+          <section className="mb-12">
+            <div className="flex items-baseline gap-4 mb-6">
+              <span className="font-mono text-xs text-muted-foreground">{getNextSection()}</span>
+              <h2 className="text-xl font-light tracking-wide">Technical Stack</h2>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              {project.programming_skills?.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {project.programming_skills.map((skill) => (
+                      <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.tool_skills?.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tool_skills.map((skill) => (
+                      <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {project.domain_skills?.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {project.domain_skills.map((skill) => (
+                      <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </section>
         )}
 

@@ -1,12 +1,11 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink, MapPin, Calendar } from "lucide-react";
 import GeometricBackground from "@/components/GeometricBackground";
-import { useCVExperienceById, useCVTechnicalDomains, getSkillsByType } from "@/hooks/use-cv-data";
+import { useCVExperienceById } from "@/hooks/use-cv-data";
 
 const ExperienceDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: experience, isLoading } = useCVExperienceById(id);
-  const { data: technicalDomains } = useCVTechnicalDomains();
 
   if (isLoading) {
     return (
@@ -29,32 +28,28 @@ const ExperienceDetail = () => {
     );
   }
 
-  // Collect all unique tags from related projects
-  const allTags = experience.related_projects.flatMap((p) => p.tags || []);
-  const uniqueTags = [...new Set(allTags)];
+  // Use categorized skills directly from the data (no global matching)
+  const categorizedSkills = {
+    programming: experience.programming_skills || [],
+    tools: experience.tool_skills || [],
+    skills: experience.domain_skills || [],
+  };
 
-  // Get all skills by type from technical domains
-  const languages = technicalDomains ? getSkillsByType(technicalDomains, 'language') : [];
-  const domains = technicalDomains ? getSkillsByType(technicalDomains, 'domain') : [];
-  const theory = technicalDomains ? getSkillsByType(technicalDomains, 'theory') : [];
-  const tools = technicalDomains ? getSkillsByType(technicalDomains, 'tool') : [];
+  // Also include skills from related projects
+  const projectProgramming = experience.related_projects.flatMap((p) => p.programming_skills || []);
+  const projectTools = experience.related_projects.flatMap((p) => p.tool_skills || []);
+  const projectDomainSkills = experience.related_projects.flatMap((p) => p.domain_skills || []);
 
-  const categorizedTags = {
-    languages: uniqueTags.filter((t) => languages.includes(t)),
-    domains: uniqueTags.filter((t) => domains.includes(t)),
-    theory: uniqueTags.filter((t) => theory.includes(t)),
-    tools: uniqueTags.filter((t) => tools.includes(t)),
-    other: uniqueTags.filter(
-      (t) => !languages.includes(t) && !domains.includes(t) && !theory.includes(t) && !tools.includes(t)
-    ),
+  const allCategorizedSkills = {
+    programming: [...new Set([...categorizedSkills.programming, ...projectProgramming])],
+    tools: [...new Set([...categorizedSkills.tools, ...projectTools])],
+    skills: [...new Set([...categorizedSkills.skills, ...projectDomainSkills])],
   };
 
   const hasCategories =
-    categorizedTags.languages.length > 0 ||
-    categorizedTags.domains.length > 0 ||
-    categorizedTags.theory.length > 0 ||
-    categorizedTags.tools.length > 0 ||
-    categorizedTags.other.length > 0;
+    allCategorizedSkills.programming.length > 0 ||
+    allCategorizedSkills.tools.length > 0 ||
+    allCategorizedSkills.skills.length > 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -100,105 +95,9 @@ const ExperienceDetail = () => {
           )}
         </header>
 
-        {/* Overview (full_description) */}
-        {experience.full_description && (
-          <Section title="Overview" index="01">
-            <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-              {experience.full_description}
-            </p>
-          </Section>
-        )}
-
-        {/* Technical Stack from related projects */}
-        {hasCategories && (
-          <Section title="Technical Stack" index={experience.full_description ? "02" : "01"}>
-            <div className="grid md:grid-cols-2 gap-8">
-              {categorizedTags.languages.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">LANGUAGES</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.languages.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.domains.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">DOMAINS</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.domains.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.theory.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">THEORY</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.theory.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.tools.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.tools.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              {categorizedTags.other.length > 0 && (
-                <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">OTHER</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {categorizedTags.other.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </Section>
-        )}
-
         {/* Related Projects */}
         {experience.related_projects.length > 0 && (
-          <Section title="Projects" index={
-            (experience.full_description ? 1 : 0) + (hasCategories ? 1 : 0) + 1 < 10 
-              ? `0${(experience.full_description ? 1 : 0) + (hasCategories ? 1 : 0) + 1}` 
-              : `${(experience.full_description ? 1 : 0) + (hasCategories ? 1 : 0) + 1}`
-          }>
+          <Section title="Projects" index="01">
             <div className="grid md:grid-cols-2 gap-6">
               {experience.related_projects.map((project) => (
                 <Link
@@ -226,6 +125,59 @@ const ExperienceDetail = () => {
                   )}
                 </Link>
               ))}
+            </div>
+          </Section>
+        )}
+
+        {/* Technical Stack - Combined from job skills AND project tags */}
+        {hasCategories && (
+          <Section title="Technical Stack" index={experience.related_projects.length > 0 ? "02" : "01"}>
+            <div className="grid md:grid-cols-2 gap-8">
+              {allCategorizedSkills.programming.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {allCategorizedSkills.programming.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {allCategorizedSkills.tools.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {allCategorizedSkills.tools.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {allCategorizedSkills.skills.length > 0 && (
+                <div>
+                  <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {allCategorizedSkills.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </Section>
         )}

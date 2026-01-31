@@ -66,22 +66,16 @@ def generateLatexFile():
     \raggedbottom
 
     % ================= LEFT COLUMN =================
-    \begin{minipage}[t]{0.31\textwidth}
+    \begin{minipage}[t]{0.33\textwidth}
 
-    \colorbox{cvbg}{%
-    \begin{minipage}[t]{\textwidth}
-        \null\hfill\null
-    \end{minipage}
-    }
+    \colorbox{cvblue}{\begin{minipage}[t][5mm][t]{\textwidth}\null\hfill\null\end{minipage}}
 
-    \vspace{-0.2ex}
-
-    \colorbox{cvbg!90}{%
-    \color{cvtext}
-    \begin{minipage}[t]{\textwidth}
-    \small
+    \vspace{-.2ex}
+    \colorbox{cvblue!90}{\color{white}
+    \kern0.09\textwidth\relax
+    \begin{minipage}[t][293mm][t]{0.82\textwidth}
     \raggedright
-    \vspace*{1.5ex}
+    \vspace*{2.5ex}
 
     \includegraphics[width=0.8\textwidth]{public/sign.png}
 
@@ -96,14 +90,13 @@ def generateLatexFile():
     \headleft{}
     \textbf{References are available upon request}
 
-    \end{minipage}
+    \end{minipage}%
+    \kern0.09\textwidth\relax
     }
-
-    \end{minipage}
-    \hspace{0.01\textwidth}
-                
+    \end{minipage}%
+    \hskip2.5em
     % ================= RIGHT COLUMN =================
-    \begin{minipage}[t]{0.65\textwidth}
+    \begin{minipage}[t]{0.56\textwidth}
     \setlength{\parskip}{0.7ex}
     \small
 

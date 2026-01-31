@@ -7,7 +7,7 @@ import {
   education,
   coursework,
   publications,
-} from "@/data/cv-data";
+} from "@/lib/cv-loader";
 
 export interface CVGeneralInfo {
   id: string;
@@ -18,9 +18,10 @@ export interface CVGeneralInfo {
   github: string | null;
   location: string | null;
   last_compiled: string | null;
+  cv_pdf_link: string | null;
 }
 
-export type TechnicalDomainType = 'language' | 'domain' | 'theory' | 'tool';
+export type TechnicalDomainType = 'language' | 'tool' | 'skill';
 
 export interface CVTechnicalDomain {
   id: string;
@@ -39,6 +40,10 @@ export interface CVExperience {
   full_description: string | null;
   location: string | null;
   order_index: number;
+  skills: string[];
+  programming_skills: string[];
+  tool_skills: string[];
+  domain_skills: string[];
 }
 
 export type CVSelectedWorkVisibility = 'selected_work' | 'work_page_project' | 'personal_document';
@@ -58,6 +63,9 @@ export interface CVSelectedWork {
   related_experience_id: string | null;
   related_education_id: string | null;
   visibility: CVSelectedWorkVisibility;
+  programming_skills: string[];
+  tool_skills: string[];
+  domain_skills: string[];
 }
 
 export interface CVSelectedWorkWithRelations extends CVSelectedWork {
@@ -69,7 +77,7 @@ export interface CVCoursework {
   id: string;
   education_id: string;
   name: string;
-  technical_domain: 'language' | 'domain' | 'theory' | 'tool' | null;
+  technical_domain: 'language' | 'tool' | 'skill' | null;
   technical_domain_item: string | null;
   order_index: number;
 }
@@ -78,6 +86,7 @@ export interface CVEducation {
   id: string;
   institution: string;
   degree: string;
+  specialization: string | null;
   year: number;
   thesis: string | null;
   honours: string | null;
@@ -85,6 +94,9 @@ export interface CVEducation {
   coursework: string[];
   location: string | null;
   order_index: number;
+  programming_skills: string[];
+  tool_skills: string[];
+  domain_skills: string[];
 }
 
 export interface CVPublication {

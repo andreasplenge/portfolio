@@ -1,5 +1,5 @@
-from getData import getData
-from formatSection import formatExperience, formatEducation, formatQualifications, formatInformation
+from latexGenerator.getData import getData
+from latexGenerator.formatSection import formatExperience, formatEducation, formatQualifications, formatInformation
 def generateLatexFile():
     experiences = getData("experience")
     educations = getData("education")

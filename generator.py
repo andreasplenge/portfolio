@@ -1,10 +1,8 @@
 from getData import getData
 from formatSection import formatExperience, formatEducation
 
-
 experiences = getData("experience")
 educations = getData("education")
-
 
 with open("cv.tex", "w") as out:
 
@@ -14,19 +12,22 @@ with open("cv.tex", "w") as out:
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[left=0mm, right=0mm, top=0mm, bottom=0mm]{geometry}
+\usepackage[left=8mm, right=8mm, top=6mm, bottom=6mm]{geometry}
 \usepackage[stretch=25, shrink=25, tracking=true, letterspace=30]{microtype}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{marvosym}
 
 \usepackage{enumitem}
-\setlist{parsep=0pt, topsep=0pt, partopsep=1pt, itemsep=1pt, leftmargin=6mm}
+\setlist{parsep=0pt, topsep=0pt, partopsep=0pt, itemsep=0.5pt, leftmargin=6mm}
 
 \usepackage{FiraSans}
 \renewcommand{\familydefault}{\sfdefault}
 
-\definecolor{cvblue}{HTML}{304263}
+%%%%%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{cvblue}{HTML}{304263}   % accent headers / rules
+\definecolor{cvbg}{HTML}{FFFFFF}     % sidebar background
+\definecolor{cvtext}{HTML}{000000}   % main text
 
 %%%%%%% USER-DEFINED COMMANDS %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\dates}[1]{\hfill\mbox{\textbf{#1}}}
@@ -34,25 +35,24 @@ with open("cv.tex", "w") as out:
 \newcommand{\smaller}[1]{\small$\diamond$\ #1}
 
 \newcommand{\headleft}[1]{%
-  \vspace*{3ex}%
+  \vspace*{2.5ex}%
   \textsc{\textbf{#1}}\par
-  \vspace*{-1.5ex}%
-  \hrulefill\par
-  \vspace*{0.7ex}%
+  \vspace*{-1.2ex}%
+  \color{cvblue}\hrulefill\par
+  \vspace*{0.5ex}%
 }
 
 \newcommand{\headright}[1]{%
-  \vspace*{2.5ex}%
-  \textsc{\Large\color{cvblue}#1}\par
-  \vspace*{-2ex}%
+  \vspace*{1.5ex}%
+  \textsc{\large\color{cvblue}#1}\par
+  \vspace*{-1.5ex}%
   {\color{cvblue}\hrulefill}\par
 }
 
 \newcommand{\grayed}[1]{\hfill\mbox{\textcolor{gray}{#1}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[colorlinks=true, urlcolor=white, linkcolor=white]{hyperref}
+\usepackage[colorlinks=true, urlcolor=cvblue, linkcolor=cvblue]{hyperref}
 
 \begin{document}
 
@@ -64,22 +64,22 @@ with open("cv.tex", "w") as out:
 \raggedbottom
 
 % ================= LEFT COLUMN =================
-\begin{minipage}[t]{0.33\textwidth}
+\begin{minipage}[t]{0.32\textwidth}
 
-\colorbox{cvblue}{%
-  \begin{minipage}[t][5mm][t]{\textwidth}
+\colorbox{cvbg}{%
+  \begin{minipage}[t]{\textwidth}
     \null\hfill\null
   \end{minipage}
 }
 
 \vspace{-0.2ex}
 
-\colorbox{cvblue!90}{%
-\color{white}
-\kern0.09\textwidth
-\begin{minipage}[t]{0.82\textwidth}
+\colorbox{cvbg!90}{%
+\color{cvtext}
+\begin{minipage}[t]{\textwidth}
+\small
 \raggedright
-\vspace*{2.5ex}
+\vspace*{1.5ex}
 
 \Large Andreas \textbf{\textsc{Plenge}} \normalsize
 
@@ -137,17 +137,17 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 \textbf{References are available upon request}
 
 \end{minipage}
-\kern0.09\textwidth
 }
 
 \end{minipage}
-\hskip2.5em
+\hfill
 
 % ================= RIGHT COLUMN =================
-\begin{minipage}[t]{0.56\textwidth}
-\setlength{\parskip}{0.8ex}
+\begin{minipage}[t]{0.65\textwidth}
+\setlength{\parskip}{0.7ex}
+\small
 
-\vspace{2ex}
+\vspace{1ex}
 """)
 
     # ---- Work Experience ----

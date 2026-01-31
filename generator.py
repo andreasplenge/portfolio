@@ -81,7 +81,7 @@ with open("cv.tex", "w") as out:
 \raggedright
 \vspace*{1.5ex}
 
-\includegraphics[width=0.4\textwidth]{public/sign.png}
+\includegraphics[width=0.8\textwidth]{public/sign.png}
 
 \vspace*{0.5ex}
 
@@ -140,10 +140,10 @@ environments, particularly those involving uncertainty, forecasting, and optimiz
 }
 
 \end{minipage}
-\hfill
-
+\hspace{0.01\textwidth}
+              
 % ================= RIGHT COLUMN =================
-\begin{minipage}[t]{0.63\textwidth}
+\begin{minipage}[t]{0.65\textwidth}
 \setlength{\parskip}{0.7ex}
 \small
 

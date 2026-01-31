@@ -101,12 +101,12 @@ with open("cv.tex", "w") as out:
     \begin{{itemize}}
     \item Algorithm Optimization\item Query Optimization\item Data Visualization\item Programming \item Problem-Solving
     \end{{itemize}}
-    \headleft{}
+    \headleft{{}}
     \textbf{{References are available upon request}}
 
     \end{{minipage}}%
-    \kern0.09\textwidth\relax}
-    }
+    \kern0.09\textwidth\relax}}
+    
     \end{{minipage}}%
     \hskip2.5em
     \begin{{minipage}}[t]{{0.56\textwidth}}

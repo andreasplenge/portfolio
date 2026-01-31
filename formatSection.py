@@ -99,7 +99,7 @@ def formatQualifications(qualifications):
     {programmingCode}
     \\end{{itemize}}
 
-    \\headleft{{Tools \\& Frameworks}}
+    \\headleft{{Tools and Frameworks}}
     {toolsCode}
     \\end{{itemize}}
 

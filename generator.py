@@ -77,7 +77,7 @@ with open("cv.tex", "w") as out:
 \colorbox{cvblue!90}{%
 \color{white}
 \kern0.09\textwidth
-\begin{minipage}[t][293mm][t]{0.82\textwidth}
+\begin{minipage}[t]{0.82\textwidth}
 \raggedright
 \vspace*{2.5ex}
 

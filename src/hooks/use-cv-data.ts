@@ -57,6 +57,7 @@ export interface CVSelectedWork {
   slug: string | null;
   tags: string[];
   full_description: string | null;
+  image_name: string | null;
   features: string[];
   tech_stack: string[];
   order_index: number;

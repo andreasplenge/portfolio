@@ -84,6 +84,7 @@ interface YAMLProject {
   tech_stack: string[];
   link: string | null;
   color: string;
+  image_name: string | null;
   id: number;
 }
 
@@ -132,7 +133,7 @@ function generateId(): string {
 function processGeneralInfo(): CVGeneralInfo {
   const info = getYamlByFilename<YAMLGeneralInfo>(generalModules, "information.yaml");
   const config = getYamlByFilename<YAMLConfig>(generalModules, "config.yaml");
-  
+
   if (!info) {
     return {
       id: generateId(),
@@ -212,7 +213,7 @@ function processQualifications(): CVTechnicalDomain[] {
 
 function processExperience(): CVExperience[] {
   const rawExperiences = extractYamlData<YAMLExperience>(experienceModules);
-  
+
   return rawExperiences
     .sort((a, b) => b.id - a.id) // Sort by id descending (most recent first)
     .map((exp, idx) => ({
@@ -286,6 +287,7 @@ function processProjects(): CVSelectedWork[] {
       ...(proj.skills || []),
     ],
     full_description: proj.introduction,
+    image_name: proj.image_name || null,
     features: proj.features,
     tech_stack: proj.tech_stack,
     order_index: idx,

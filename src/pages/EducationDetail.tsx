@@ -10,7 +10,7 @@ const EducationDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <p className="font-mono text-sm text-muted-foreground">// Loading...</p>
+        <p className="text-sm text-muted-foreground">Loading...</p>
       </div>
     );
   }
@@ -19,7 +19,7 @@ const EducationDetail = () => {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
-          <p className="font-mono text-sm text-muted-foreground mb-4">// Education not found</p>
+          <p className="text-sm text-muted-foreground mb-4">Education not found</p>
           <Link to="/" className="text-primary hover:underline">
             ← Back to CV
           </Link>
@@ -68,13 +68,6 @@ const EducationDetail = () => {
     combinedTools.length > 0 ||
     combinedSkills.length > 0;
 
-  // Calculate section indices dynamically
-  let sectionIndex = 0;
-  const getNextIndex = () => {
-    sectionIndex++;
-    return sectionIndex < 10 ? `0${sectionIndex}` : `${sectionIndex}`;
-  };
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <GeometricBackground />
@@ -91,8 +84,8 @@ const EducationDetail = () => {
 
         {/* Header */}
         <header className="mb-12">
-          <p className="font-mono text-xs text-muted-foreground tracking-widest mb-2">
-            EDUCATION
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
+            Education
           </p>
           <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
             {education.degree}
@@ -103,26 +96,26 @@ const EducationDetail = () => {
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span className="font-mono">{education.year}</span>
+              <span>{education.year}</span>
             </div>
             {education.location && (
-              <span className="font-mono">{education.location}</span>
+              <span>{education.location}</span>
             )}
             {education.honours && (
-              <span className="font-mono">{education.honours}</span>
+              <span>{education.honours}</span>
             )}
           </div>
           {education.specialization && (
             <p className="text-muted-foreground">
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground uppercase tracking-wider">
                 Specialization:{" "}
               </span>
               {education.specialization}
             </p>
           )}
           {education.thesis && (
-            <p className="text-muted-foreground leading-relaxed max-w-2xl">
-              <span className="font-mono text-xs text-muted-foreground">
+            <p className="text-muted-foreground leading-relaxed max-w-2xl mt-2">
+              <span className="text-xs text-muted-foreground uppercase tracking-wider">
                 Thesis:{" "}
               </span>
               {education.thesis}
@@ -132,16 +125,16 @@ const EducationDetail = () => {
 
         {/* Related Projects */}
         {education.related_projects.length > 0 && (
-          <Section title="Projects" index={getNextIndex()}>
+          <Section title="Projects">
             <div className="grid md:grid-cols-2 gap-6">
               {education.related_projects.map((project) => (
                 <Link
                   key={project.id}
                   to={`/project/${project.slug || project.id}`}
-                  className="group block p-5 border border-border hover:border-primary transition-all duration-300 hover:bg-accent/5"
+                  className="group block p-5 bg-card rounded-lg border border-border hover:border-primary/30 hover:shadow-soft transition-all duration-200"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-mono font-medium group-hover:text-primary transition-colors">
+                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                       {project.title}
                     </h4>
                     <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -152,13 +145,13 @@ const EducationDetail = () => {
                     </p>
                   )}
                   {project.tags && project.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs font-mono text-muted-foreground"
+                          className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
                         >
-                          #{tag}
+                          {tag}
                         </span>
                       ))}
                     </div>
@@ -172,12 +165,12 @@ const EducationDetail = () => {
         {/* Coursework */}
         {education.structured_coursework &&
           education.structured_coursework.length > 0 && (
-            <Section title="Coursework" index={getNextIndex()}>
+            <Section title="Coursework">
               <ul className="space-y-2">
                 {education.structured_coursework.map((course) => (
                   <li
                     key={course.id}
-                    className="text-muted-foreground font-mono text-sm"
+                    className="text-muted-foreground text-sm"
                   >
                     {course.name}
                   </li>
@@ -188,18 +181,18 @@ const EducationDetail = () => {
 
         {/* ---- SINGLE MERGED TECHNICAL STACK SECTION ---- */}
         {hasCombinedStack && (
-          <Section title="Technical Stack" index={getNextIndex()}>
+          <Section title="Technical Stack">
             <div className="grid md:grid-cols-2 gap-8">
               {combinedProgramming.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">
-                    PROGRAMMING
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+                    Languages
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {combinedProgramming.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {tag}
                       </span>
@@ -210,14 +203,14 @@ const EducationDetail = () => {
 
               {combinedTools.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">
-                    TOOLS & FRAMEWORKS
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+                    Tools & Frameworks
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {combinedTools.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {tag}
                       </span>
@@ -228,14 +221,14 @@ const EducationDetail = () => {
 
               {combinedSkills.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">
-                    SKILLS
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
+                    Expertise
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {combinedSkills.map((tag) => (
                       <span
                         key={tag}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {tag}
                       </span>
@@ -249,8 +242,8 @@ const EducationDetail = () => {
 
         {/* Footer */}
         <footer className="mt-20 pt-8 border-t border-border">
-          <p className="font-mono text-xs text-muted-foreground text-center">
-            <Link to="/" className="hover:text-foreground transition-colors">
+          <p className="text-xs text-muted-foreground text-center">
+            <Link to="/" className="hover:text-primary transition-colors">
               ← Back to CV
             </Link>
           </p>
@@ -262,17 +255,14 @@ const EducationDetail = () => {
 
 const Section = ({
   title,
-  index,
   children,
 }: {
   title: string;
-  index: string;
   children: React.ReactNode;
 }) => (
-  <section className="mb-16">
-    <div className="flex items-baseline gap-4 mb-6">
-      <span className="font-mono text-xs text-muted-foreground">{index}</span>
-      <h2 className="text-xl font-light tracking-wide">{title}</h2>
+  <section className="mb-14">
+    <div className="flex items-center gap-3 mb-6">
+      <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
       <div className="flex-1 h-px bg-border" />
     </div>
     {children}

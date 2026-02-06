@@ -136,7 +136,7 @@ const CV = () => {
                   <span className="font-mono text-sm text-muted-foreground">{edu.year}</span>
                   <Link
                     to={`/education/${edu.id}`}
-                    className="p-1.5 border border-border text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                    className="p-2 text-muted-foreground hover:text-primary hover:bg-secondary rounded-md transition-colors"
                     title="View details"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -195,7 +195,7 @@ const CV = () => {
               <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
               <div className="flex flex-wrap gap-2">
                 {allProgramming.map((lang) => (
-                  <span key={lang} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={lang} className="px-3 py-1.5 bg-secondary text-secondary-foreground text-sm font-mono rounded-md hover:bg-primary hover:text-primary-foreground transition-colors">
                     {lang}
                   </span>
                 ))}
@@ -207,7 +207,7 @@ const CV = () => {
               <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
               <div className="flex flex-wrap gap-2">
                 {allTools.map((tool) => (
-                  <span key={tool} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={tool} className="px-3 py-1.5 bg-secondary text-secondary-foreground text-sm font-mono rounded-md hover:bg-primary hover:text-primary-foreground transition-colors">
                     {tool}
                   </span>
                 ))}
@@ -219,7 +219,7 @@ const CV = () => {
               <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
               <div className="flex flex-wrap gap-2">
                 {allSkills.map((skill) => (
-                  <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={skill} className="px-3 py-1.5 bg-secondary text-secondary-foreground text-sm font-mono rounded-md hover:bg-primary hover:text-primary-foreground transition-colors">
                     {skill}
                   </span>
                 ))}
@@ -234,7 +234,6 @@ const CV = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <GeometricBackground />
-
       <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-24">
         {/* Header */}
         <header className="mb-16">
@@ -351,7 +350,7 @@ const ExperienceItem = ({
         </div>
         <Link
           to={`/experience/${id}`}
-          className="p-1.5 border border-border text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+          className="p-2 text-muted-foreground hover:text-primary hover:bg-secondary rounded-md transition-colors"
           title="View details"
         >
           <ExternalLink className="w-4 h-4" />
@@ -377,9 +376,9 @@ const ProjectCard = ({
 }) => (
   <Link 
     to={`/project/${slug}`}
-    className="group block p-5 border border-border hover:border-primary transition-all duration-300 hover:bg-accent/5"
+    className="group block p-6 border border-border rounded-lg hover:border-primary/50 hover:shadow-soft-lg transition-all duration-300 bg-card"
   >
-    <div className="flex items-start justify-between mb-2">
+    <div className="flex items-start justify-between mb-3">
       <h4 className="font-mono font-medium group-hover:text-primary transition-colors">{title}</h4>
       <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
     </div>

@@ -10,7 +10,7 @@ const ExperienceDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <p className="font-mono text-sm text-muted-foreground">// Loading...</p>
+        <p className="text-sm text-muted-foreground">Loading...</p>
       </div>
     );
   }
@@ -19,7 +19,7 @@ const ExperienceDetail = () => {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
-          <p className="font-mono text-sm text-muted-foreground mb-4">// Experience not found</p>
+          <p className="text-sm text-muted-foreground mb-4">Experience not found</p>
           <Link to="/" className="text-primary hover:underline">
             ← Back to CV
           </Link>
@@ -67,8 +67,8 @@ const ExperienceDetail = () => {
 
         {/* Header */}
         <header className="mb-12">
-          <p className="font-mono text-xs text-muted-foreground tracking-widest mb-2">
-            EXPERIENCE
+          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
+            Experience
           </p>
           <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
             {experience.role}
@@ -79,12 +79,12 @@ const ExperienceDetail = () => {
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span className="font-mono">{experience.period}</span>
+              <span>{experience.period}</span>
             </div>
             {experience.location && (
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span className="font-mono">{experience.location}</span>
+                <span>{experience.location}</span>
               </div>
             )}
           </div>
@@ -97,16 +97,16 @@ const ExperienceDetail = () => {
 
         {/* Related Projects */}
         {experience.related_projects.length > 0 && (
-          <Section title="Projects" index="01">
+          <Section title="Projects">
             <div className="grid md:grid-cols-2 gap-6">
               {experience.related_projects.map((project) => (
                 <Link
                   key={project.id}
                   to={`/project/${project.slug || project.id}`}
-                  className="group block p-5 border border-border hover:border-primary transition-all duration-300 hover:bg-accent/5"
+                  className="group block p-6 border border-border rounded-lg hover:border-primary/50 hover:shadow-soft-lg transition-all duration-300 bg-card"
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-mono font-medium group-hover:text-primary transition-colors">
+                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
                       {project.title}
                     </h4>
                     <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -115,10 +115,10 @@ const ExperienceDetail = () => {
                     <p className="text-sm text-muted-foreground mb-4">{project.description}</p>
                   )}
                   {project.tags && project.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="text-xs font-mono text-muted-foreground">
-                          #{tag}
+                        <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+                          {tag}
                         </span>
                       ))}
                     </div>
@@ -131,16 +131,16 @@ const ExperienceDetail = () => {
 
         {/* Technical Stack - Combined from job skills AND project tags */}
         {hasCategories && (
-          <Section title="Technical Stack" index={experience.related_projects.length > 0 ? "02" : "01"}>
+          <Section title="Technical Stack">
             <div className="grid md:grid-cols-2 gap-8">
               {allCategorizedSkills.programming.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Languages</h4>
                   <div className="flex flex-wrap gap-2">
                     {allCategorizedSkills.programming.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {skill}
                       </span>
@@ -150,12 +150,12 @@ const ExperienceDetail = () => {
               )}
               {allCategorizedSkills.tools.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Tools & Frameworks</h4>
                   <div className="flex flex-wrap gap-2">
                     {allCategorizedSkills.tools.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {skill}
                       </span>
@@ -165,12 +165,12 @@ const ExperienceDetail = () => {
               )}
               {allCategorizedSkills.skills.length > 0 && (
                 <div>
-                  <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Expertise</h4>
                   <div className="flex flex-wrap gap-2">
                     {allCategorizedSkills.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors"
+                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
                       >
                         {skill}
                       </span>
@@ -184,8 +184,8 @@ const ExperienceDetail = () => {
 
         {/* Footer */}
         <footer className="mt-20 pt-8 border-t border-border">
-          <p className="font-mono text-xs text-muted-foreground text-center">
-            <Link to="/" className="hover:text-foreground transition-colors">
+          <p className="text-xs text-muted-foreground text-center">
+            <Link to="/" className="hover:text-primary transition-colors">
               ← Back to CV
             </Link>
           </p>
@@ -197,17 +197,15 @@ const ExperienceDetail = () => {
 
 const Section = ({
   title,
-  index,
   children,
 }: {
   title: string;
-  index: string;
+  index?: string;
   children: React.ReactNode;
 }) => (
-  <section className="mb-16">
-    <div className="flex items-baseline gap-4 mb-6">
-      <span className="font-mono text-xs text-muted-foreground">{index}</span>
-      <h2 className="text-xl font-light tracking-wide">{title}</h2>
+  <section className="mb-14">
+    <div className="flex items-center gap-3 mb-6">
+      <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
       <div className="flex-1 h-px bg-border" />
     </div>
     {children}

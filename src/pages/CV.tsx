@@ -72,27 +72,6 @@ const CV = () => {
     });
   }
 
-  if (experience && experience.length > 0) {
-    sections.push({
-      title: "Experience",
-      content: (
-        <div className="space-y-10">
-          {experience.map((exp) => (
-            <ExperienceItem
-              key={exp.id}
-              id={exp.id}
-              title={exp.role}
-              company={exp.company}
-              period={exp.period}
-              location={exp.location || ""}
-              description={exp.description || ""}
-            />
-          ))}
-        </div>
-      ),
-    });
-  }
-
   // Filter to only show "selected_work" visibility on CV page
   const visibleSelectedWork = selectedWork?.filter((w) => w.visibility === "selected_work") || [];
 
@@ -108,6 +87,27 @@ const CV = () => {
               description={project.description || ""}
               tags={project.tags || []}
               slug={project.slug || project.id}
+            />
+          ))}
+        </div>
+      ),
+    });
+  }
+
+  if (experience && experience.length > 0) {
+    sections.push({
+      title: "Experience",
+      content: (
+        <div className="space-y-10">
+          {experience.map((exp) => (
+            <ExperienceItem
+              key={exp.id}
+              id={exp.id}
+              title={exp.role}
+              company={exp.company}
+              period={exp.period}
+              location={exp.location || ""}
+              description={exp.description || ""}
             />
           ))}
         </div>
@@ -133,10 +133,10 @@ const CV = () => {
                   )}
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="font-mono text-sm text-muted-foreground">{edu.year}</span>
+                  <span className="text-sm text-muted-foreground">{edu.year}</span>
                   <Link
                     to={`/education/${edu.id}`}
-                    className="p-1.5 border border-border text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                    className="p-1.5 rounded-md text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
                     title="View details"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -192,10 +192,10 @@ const CV = () => {
         <div className="grid md:grid-cols-2 gap-8">
           {allProgramming.length > 0 && (
             <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">PROGRAMMING</h4>
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Languages</h4>
               <div className="flex flex-wrap gap-2">
                 {allProgramming.map((lang) => (
-                  <span key={lang} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={lang} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
                     {lang}
                   </span>
                 ))}
@@ -204,10 +204,10 @@ const CV = () => {
           )}
           {allTools.length > 0 && (
             <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">TOOLS & FRAMEWORKS</h4>
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Tools & Frameworks</h4>
               <div className="flex flex-wrap gap-2">
                 {allTools.map((tool) => (
-                  <span key={tool} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={tool} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
                     {tool}
                   </span>
                 ))}
@@ -216,10 +216,10 @@ const CV = () => {
           )}
           {allSkills.length > 0 && (
             <div>
-              <h4 className="font-mono text-xs text-muted-foreground mb-4">SKILLS</h4>
+              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Expertise</h4>
               <div className="flex flex-wrap gap-2">
                 {allSkills.map((skill) => (
-                  <span key={skill} className="px-3 py-1 border border-border text-sm font-mono hover:border-primary transition-colors">
+                  <span key={skill} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
                     {skill}
                   </span>
                 ))}
@@ -249,53 +249,53 @@ const CV = () => {
             </div>
             <div className="flex flex-col gap-2 text-sm text-muted-foreground">
               {generalInfo?.email && (
-                <a href={`mailto:${generalInfo.email}`} className="flex items-center gap-2 hover:text-foreground transition-colors">
+                <a href={`mailto:${generalInfo.email}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                   <Mail className="w-4 h-4" />
-                  <span className="font-mono">{generalInfo.email}</span>
+                  <span>{generalInfo.email}</span>
                 </a>
               )}
               {generalInfo?.linkedin && (
-                <a href={`https://${generalInfo.linkedin.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-foreground transition-colors">
+                <a href={`https://${generalInfo.linkedin.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                   <Linkedin className="w-4 h-4" />
-                  <span className="font-mono">{generalInfo.linkedin.replace(/^https?:\/\//, '')}</span>
+                  <span>LinkedIn</span>
                 </a>
               )}
               {generalInfo?.github && (
-                <a href={`https://${generalInfo.github.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-foreground transition-colors">
+                <a href={`https://${generalInfo.github.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                   <Github className="w-4 h-4" />
-                  <span className="font-mono">{generalInfo.github.replace(/^https?:\/\//, '')}</span>
+                  <span>GitHub</span>
                 </a>
               )}
               {generalInfo?.location && (
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  <span className="font-mono">{generalInfo.location}</span>
+                  <span>{generalInfo.location}</span>
                 </div>
               )}
               {generalInfo?.cv_pdf_link && (
                 <a 
                   href={generalInfo.cv_pdf_link} 
                   download 
-                  className="flex items-center gap-2 hover:text-foreground transition-colors"
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
                 >
                   <Download className="w-4 h-4" />
-                  <span className="font-mono">Download CV</span>
+                  <span>Download CV</span>
                 </a>
               )}
             </div>
           </div>
         </header>
 
-        {/* Render sections with dynamic numbering */}
-        {sections.map((section, idx) => (
-          <Section key={section.title} title={section.title} index={String(idx + 1).padStart(2, '0')}>
+        {/* Render sections */}
+        {sections.map((section) => (
+          <Section key={section.title} title={section.title}>
             {section.content}
           </Section>
         ))}
 
         {/* Footer */}
         <footer className="mt-20 pt-8 border-t border-border">
-          <p className="font-mono text-xs text-muted-foreground text-center">
+          <p className="text-xs text-muted-foreground text-center tracking-wide">
             Last updated {lastCompiled}
           </p>
         </footer>
@@ -306,17 +306,15 @@ const CV = () => {
 
 const Section = ({ 
   title, 
-  index, 
   children 
 }: { 
   title: string; 
-  index: string; 
+  index?: string; 
   children: React.ReactNode;
 }) => (
-  <section className="mb-16">
-    <div className="flex items-baseline gap-4 mb-6">
-      <span className="font-mono text-xs text-muted-foreground">{index}</span>
-      <h2 className="text-xl font-light tracking-wide">{title}</h2>
+  <section className="mb-14">
+    <div className="flex items-center gap-3 mb-6">
+      <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
       <div className="flex-1 h-px bg-border" />
     </div>
     {children}
@@ -338,20 +336,20 @@ const ExperienceItem = ({
   location: string;
   description: string;
 }) => (
-  <div className="group">
-    <div className="flex justify-between items-start flex-wrap gap-2 mb-3">
+  <div className="group py-4 first:pt-0 last:pb-0 border-b border-border last:border-0">
+    <div className="flex justify-between items-start flex-wrap gap-2 mb-2">
       <div>
-        <h4 className="font-medium">{title}</h4>
+        <h4 className="font-semibold text-foreground">{title}</h4>
         <p className="text-muted-foreground">{company}</p>
       </div>
       <div className="text-right flex items-start gap-3">
         <div>
-          <span className="font-mono text-sm text-muted-foreground block">{period}</span>
-          {location && <span className="font-mono text-xs text-muted-foreground">{location}</span>}
+          <span className="text-sm text-muted-foreground block">{period}</span>
+          {location && <span className="text-xs text-muted-foreground">{location}</span>}
         </div>
         <Link
           to={`/experience/${id}`}
-          className="p-1.5 border border-border text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+          className="p-1.5 rounded-md text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
           title="View details"
         >
           <ExternalLink className="w-4 h-4" />
@@ -359,7 +357,7 @@ const ExperienceItem = ({
       </div>
     </div>
     {description && (
-      <p className="text-sm text-muted-foreground whitespace-pre-line">{description}</p>
+      <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
     )}
   </div>
 );
@@ -377,17 +375,17 @@ const ProjectCard = ({
 }) => (
   <Link 
     to={`/project/${slug}`}
-    className="group block p-5 border border-border hover:border-primary transition-all duration-300 hover:bg-accent/5"
+    className="group block p-5 bg-card rounded-lg border border-border hover:border-primary/30 hover:shadow-soft transition-all duration-200"
   >
     <div className="flex items-start justify-between mb-2">
-      <h4 className="font-mono font-medium group-hover:text-primary transition-colors">{title}</h4>
+      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{title}</h4>
       <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
     </div>
-    <p className="text-sm text-muted-foreground mb-4">{description}</p>
-    <div className="flex flex-wrap gap-2">
+    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
+    <div className="flex flex-wrap gap-1.5">
       {tags.map((tag) => (
-        <span key={tag} className="text-xs font-mono text-muted-foreground">
-          #{tag}
+        <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
+          {tag}
         </span>
       ))}
     </div>

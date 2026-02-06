@@ -1,0 +1,21 @@
+- header: Research Project
+  slug: project-1767289659371
+  description: first description
+
+  introduction: |
+    k-Nearest Neighbor Search (kNNS) is the problem of finding the k points most similar to a given query point within a dataset. It is a fundamental task with applications in areas such as computer vision, multimedia retrieval, and advertising. Because these applications often involve very large, high-dimensional datasets, exact search is frequently too slow, and approximate methods (kANNS) are used instead. Partition-based kANNS methods reduce the search space by dividing the data into regions and performing exact search on a smaller candidate set. This paper examines the Natural Classifier algorithm proposed by Hyvönen et al., explaining how it differs from existing partition-based approaches and detailing our own implementation. We also present benchmarking results, showing that the Natural Classifier outperforms Voting Search at high recall levels, while results are less conclusive at lower recall.
+
+  programming: [Python]
+  tools: []
+  skills: [Machine Learning & Algorithms]
+
+  experience_id: null
+  education_id: 3
+
+  visibility: selected_work
+
+  features: []
+  tech_stack: []
+  link: null
+  color: blue
+  id: 5

@@ -1,0 +1,14 @@
+- university: University of Copenhagen
+  name: Mathematics
+  degree: BSc
+  year: 2018
+  specialization: mathematical finance
+  location: Copenhagen, Denmark
+  thesis: Explored the connection between the heat equation and Brownian motion, combining advanced concepts in probability and differential equations.
+  programming: []
+  tools: []
+  skills:
+    - Probability Theory
+    - Differential Equations
+    - Mathematical Finance
+  id: 1

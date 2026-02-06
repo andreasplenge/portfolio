@@ -1,0 +1,21 @@
+- header: Image segmentation with deep encoder-decoder networks
+  slug: project-1767289687668
+  description: Accurate image segmentation is essential for applications such as self-driving cars.
+
+  introduction: |
+    Accurate image segmentation is essential for applications such as self-driving cars. This project explores and compares two segmentation architectures using the CamVid dataset, which contains driving scenes captured from a vehicle's perspective. We evaluate a traditional CNN-based encoder–decoder model, SegNet, and a newer vision transformer–based model, SegFormer. SegNet is trained from scratch, while SegFormer is fine-tuned under different settings to analyze their impact on performance. Additionally, we compare our results with a SegFormer model trained on the Cityscapes dataset, using a relabeling scheme to align its classes with CamVid.
+
+  programming: [Python]
+  tools: []
+  skills: [Machine Learning & Algorithms]
+
+  experience_id: null
+  education_id: 3
+
+  visibility: work_page_project
+
+  features: []
+  tech_stack: []
+  link: null
+  color: blue
+  id: 6

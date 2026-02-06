@@ -1,0 +1,18 @@
+- company: Bodil Energi
+
+  start: August 2024
+  end: Present
+
+  title: Tech Lead | Algo Systems Engineer
+  promotion: prev. ML Engineer
+  location: Copenhagen, Denmark
+
+  programming: [Python, TypeScript, noSQL]
+  tools: [Power BI, Pandas, Numpy, TensorFlow]
+  skills: []
+
+  description: |
+    Designed and developed the core grid stabilization algorithm, orchestrating real-time coordination of household devices using scalable combinatorial methods and linear-complexity optimizations. Conducted code reviews and collaborated with the team to ensure robustness and maintainability.
+    
+    Deployed the system across households, using consumption forecasts to bid in ancillary service markets and controlling devices based on live frequency monitoring, ensuring reliable and efficient stabilization of the electricity grid.
+  id: 2

@@ -80,15 +80,25 @@ const CV = () => {
       title: "Selected Work",
       content: (
         <div className="grid md:grid-cols-2 gap-6">
-          {visibleSelectedWork.map((project) => (
-            <ProjectCard
-              key={project.id}
-              title={project.title}
-              description={project.description || ""}
-              tags={project.tags || []}
-              slug={project.slug || project.id}
-            />
-          ))}
+          {visibleSelectedWork.map((project) => {
+            const relatedExp = project.related_experience_id
+              ? experience?.find(e => e.id === project.related_experience_id)
+              : null;
+            const relatedEdu = project.related_education_id
+              ? education?.find(e => e.id === project.related_education_id)
+              : null;
+            const affiliation = relatedExp?.company || relatedEdu?.institution || null;
+            return (
+              <ProjectCard
+                key={project.id}
+                title={project.title}
+                description={project.description || ""}
+                affiliation={affiliation}
+                slug={project.slug || project.id}
+              />
+            );
+          })}
+
         </div>
       ),
     });
@@ -294,10 +304,8 @@ const CV = () => {
         ))}
 
         {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground text-center tracking-wide">
-            Last updated {lastCompiled}
-          </p>
+        <footer className="mt-20 pt-8 border-t border-border flex justify-center">
+          <img src="/sign.png" alt="Signature" className="h-16 opacity-70" />
         </footer>
       </main>
     </div>
@@ -365,12 +373,12 @@ const ExperienceItem = ({
 const ProjectCard = ({
   title,
   description,
-  tags,
+  affiliation,
   slug
 }: {
   title: string;
   description: string;
-  tags: string[];
+  affiliation: string | null;
   slug: string;
 }) => (
   <Link 
@@ -382,13 +390,9 @@ const ProjectCard = ({
       <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
     </div>
     <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
-    <div className="flex flex-wrap gap-1.5">
-      {tags.map((tag) => (
-        <span key={tag} className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground">
-          {tag}
-        </span>
-      ))}
-    </div>
+    {affiliation && (
+      <p className="text-xs text-muted-foreground">{affiliation}</p>
+    )}
   </Link>
 );
 

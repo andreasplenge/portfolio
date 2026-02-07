@@ -1,4 +1,4 @@
-import { Linkedin, Mail, ExternalLink, MapPin, Github, Download } from "lucide-react";
+import { Linkedin, Mail, ExternalLink, MapPin, Github, Download, Building2, GraduationCap } from "lucide-react";
 import GeometricBackground from "@/components/GeometricBackground";
 import { Link } from "react-router-dom";
 import {
@@ -24,14 +24,10 @@ const CV = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
-        <p className="font-mono text-sm text-muted-foreground">// Loading...</p>
+        <p className="text-sm text-muted-foreground">Loading...</p>
       </div>
     );
   }
-
-  const lastCompiled = generalInfo?.last_compiled 
-    ? new Date(generalInfo.last_compiled).toISOString().split('T')[0]
-    : new Date().toISOString().split('T')[0];
 
   // Get skills from qualifications (highlighted ones)
   const qualLanguages = technicalDomains ? getHighlightedSkillsByType(technicalDomains, 'language') : [];
@@ -63,9 +59,9 @@ const CV = () => {
 
   if (generalInfo?.summary) {
     sections.push({
-      title: "Summary",
+      title: "Profile",
       content: (
-        <p className="text-muted-foreground leading-relaxed max-w-2xl whitespace-pre-line">
+        <p className="text-muted-foreground leading-relaxed max-w-3xl">
           {generalInfo.summary}
         </p>
       ),
@@ -77,9 +73,9 @@ const CV = () => {
 
   if (visibleSelectedWork.length > 0) {
     sections.push({
-      title: "Selected Work",
+      title: "Key Projects",
       content: (
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           {visibleSelectedWork.map((project) => {
             const relatedExp = project.related_experience_id
               ? experience?.find(e => e.id === project.related_experience_id)
@@ -88,17 +84,18 @@ const CV = () => {
               ? education?.find(e => e.id === project.related_education_id)
               : null;
             const affiliation = relatedExp?.company || relatedEdu?.institution || null;
+            const affiliationType = relatedExp ? "company" : relatedEdu ? "education" : null;
             return (
               <ProjectCard
                 key={project.id}
                 title={project.title}
                 description={project.description || ""}
                 affiliation={affiliation}
+                affiliationType={affiliationType}
                 slug={project.slug || project.id}
               />
             );
           })}
-
         </div>
       ),
     });
@@ -106,9 +103,9 @@ const CV = () => {
 
   if (experience && experience.length > 0) {
     sections.push({
-      title: "Experience",
+      title: "Professional Experience",
       content: (
-        <div className="space-y-10">
+        <div className="space-y-0">
           {experience.map((exp) => (
             <ExperienceItem
               key={exp.id}
@@ -129,40 +126,33 @@ const CV = () => {
     sections.push({
       title: "Education",
       content: (
-        <div className="space-y-6">
+        <div className="space-y-5">
           {education.map((edu) => (
-            <div key={edu.id} className="group">
-              <div className="flex justify-between items-start flex-wrap gap-2 mb-2">
-                <div>
-                  <h4 className="font-medium">{edu.degree}</h4>
-                  <p className="text-muted-foreground text-sm">{edu.institution}</p>
-                  {edu.specialization && (
-                    <p className="text-muted-foreground text-sm">
-                      <span className="font-mono text-xs">Specialization:</span> {edu.specialization}
-                    </p>
-                  )}
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-sm text-muted-foreground">{edu.year}</span>
-                  <Link
-                    to={`/education/${edu.id}`}
-                    className="p-1.5 rounded-md text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
-                    title="View details"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </Link>
-                </div>
+            <div key={edu.id} className="flex justify-between items-start flex-wrap gap-2">
+              <div>
+                <h4 className="font-semibold text-foreground">{edu.degree}</h4>
+                <p className="text-muted-foreground text-sm">{edu.institution}</p>
+                {edu.specialization && (
+                  <p className="text-muted-foreground text-sm mt-0.5">
+                    {edu.specialization}
+                  </p>
+                )}
+                {edu.thesis && (
+                  <p className="text-sm text-muted-foreground mt-1">
+                    Thesis: "{edu.thesis}"
+                  </p>
+                )}
               </div>
-              {edu.thesis && (
-                <p className="text-sm text-muted-foreground">
-                  Thesis: "{edu.thesis}"
-                </p>
-              )}
-              {edu.honours && (
-                <p className="text-sm text-muted-foreground">
-                  {edu.honours}
-                </p>
-              )}
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-muted-foreground">{edu.year}</span>
+                <Link
+                  to={`/education/${edu.id}`}
+                  className="p-1.5 rounded text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                  title="View details"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>
@@ -176,13 +166,13 @@ const CV = () => {
       content: (
         <div className="space-y-4">
           {publications.map((pub) => (
-            <div key={pub.id} className="group">
+            <div key={pub.id}>
               <p className="text-sm">
                 {pub.authors && <span className="text-muted-foreground">{pub.authors}</span>}{" "}
                 "{pub.title}"
               </p>
               {pub.venue && (
-                <p className="text-xs text-muted-foreground font-mono mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {pub.venue}{pub.year && ` · ${pub.year}`}
                 </p>
               )}
@@ -197,15 +187,15 @@ const CV = () => {
 
   if (hasSkills) {
     sections.push({
-      title: "Technical Stack",
+      title: "Core Competencies",
       content: (
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {allProgramming.length > 0 && (
             <div>
-              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Languages</h4>
-              <div className="flex flex-wrap gap-2">
+              <h4 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">Languages</h4>
+              <div className="flex flex-wrap gap-1.5">
                 {allProgramming.map((lang) => (
-                  <span key={lang} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <span key={lang} className="px-2.5 py-1 text-xs bg-secondary text-secondary-foreground rounded">
                     {lang}
                   </span>
                 ))}
@@ -214,10 +204,10 @@ const CV = () => {
           )}
           {allTools.length > 0 && (
             <div>
-              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Tools & Frameworks</h4>
-              <div className="flex flex-wrap gap-2">
+              <h4 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">Tools & Frameworks</h4>
+              <div className="flex flex-wrap gap-1.5">
                 {allTools.map((tool) => (
-                  <span key={tool} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <span key={tool} className="px-2.5 py-1 text-xs bg-secondary text-secondary-foreground rounded">
                     {tool}
                   </span>
                 ))}
@@ -226,10 +216,10 @@ const CV = () => {
           )}
           {allSkills.length > 0 && (
             <div>
-              <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">Expertise</h4>
-              <div className="flex flex-wrap gap-2">
+              <h4 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">Domain Expertise</h4>
+              <div className="flex flex-wrap gap-1.5">
                 {allSkills.map((skill) => (
-                  <span key={skill} className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <span key={skill} className="px-2.5 py-1 text-xs bg-secondary text-secondary-foreground rounded">
                     {skill}
                   </span>
                 ))}
@@ -245,40 +235,40 @@ const CV = () => {
     <div className="min-h-screen bg-background text-foreground">
       <GeometricBackground />
 
-      <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-24">
+      <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-20">
         {/* Header */}
-        <header className="mb-16">
+        <header className="mb-14 bg-card border border-border rounded p-8">
           <div className="flex items-start justify-between flex-wrap gap-6">
             <div>
-              <h1 className="text-4xl md:text-5xl font-light tracking-tight mb-3">
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-1">
                 Andreas Plenge
               </h1>
-              <p className="text-lg text-muted-foreground font-light">
+              <p className="text-base text-primary font-medium">
                 {generalInfo?.title || "Software Engineer"}
               </p>
             </div>
-            <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+            <div className="flex flex-col gap-1.5 text-sm text-muted-foreground">
               {generalInfo?.email && (
                 <a href={`mailto:${generalInfo.email}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-3.5 h-3.5" />
                   <span>{generalInfo.email}</span>
                 </a>
               )}
               {generalInfo?.linkedin && (
                 <a href={`https://${generalInfo.linkedin.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-                  <Linkedin className="w-4 h-4" />
+                  <Linkedin className="w-3.5 h-3.5" />
                   <span>LinkedIn</span>
                 </a>
               )}
               {generalInfo?.github && (
                 <a href={`https://${generalInfo.github.replace(/^https?:\/\//, '')}`} className="flex items-center gap-2 hover:text-primary transition-colors">
-                  <Github className="w-4 h-4" />
+                  <Github className="w-3.5 h-3.5" />
                   <span>GitHub</span>
                 </a>
               )}
               {generalInfo?.location && (
                 <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-3.5 h-3.5" />
                   <span>{generalInfo.location}</span>
                 </div>
               )}
@@ -286,10 +276,10 @@ const CV = () => {
                 <a 
                   href={generalInfo.cv_pdf_link} 
                   download 
-                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                  className="inline-flex items-center gap-2 mt-2 px-4 py-1.5 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider rounded hover:opacity-90 transition-opacity"
                 >
-                  <Download className="w-4 h-4" />
-                  <span>Download CV</span>
+                  <Download className="w-3.5 h-3.5" />
+                  Download CV
                 </a>
               )}
             </div>
@@ -304,8 +294,8 @@ const CV = () => {
         ))}
 
         {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-border flex justify-center">
-          <img src="/sign.png" alt="Signature" className="h-16 opacity-70" />
+        <footer className="mt-16 pt-6 border-t border-border flex justify-center">
+          <img src="/sign.png" alt="Signature" className="h-14 opacity-60" />
         </footer>
       </main>
     </div>
@@ -317,12 +307,11 @@ const Section = ({
   children 
 }: { 
   title: string; 
-  index?: string; 
   children: React.ReactNode;
 }) => (
-  <section className="mb-14">
-    <div className="flex items-center gap-3 mb-6">
-      <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+  <section className="mb-12">
+    <div className="flex items-center gap-4 mb-5">
+      <h2 className="text-sm font-bold uppercase tracking-widest text-primary">{title}</h2>
       <div className="flex-1 h-px bg-border" />
     </div>
     {children}
@@ -344,11 +333,11 @@ const ExperienceItem = ({
   location: string;
   description: string;
 }) => (
-  <div className="group py-4 first:pt-0 last:pb-0 border-b border-border last:border-0">
+  <div className="py-5 border-b border-border last:border-0">
     <div className="flex justify-between items-start flex-wrap gap-2 mb-2">
       <div>
         <h4 className="font-semibold text-foreground">{title}</h4>
-        <p className="text-muted-foreground">{company}</p>
+        <p className="text-muted-foreground text-sm">{company}</p>
       </div>
       <div className="text-right flex items-start gap-3">
         <div>
@@ -357,7 +346,7 @@ const ExperienceItem = ({
         </div>
         <Link
           to={`/experience/${id}`}
-          className="p-1.5 rounded-md text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+          className="p-1.5 rounded text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
           title="View details"
         >
           <ExternalLink className="w-4 h-4" />
@@ -374,25 +363,36 @@ const ProjectCard = ({
   title,
   description,
   affiliation,
+  affiliationType,
   slug
 }: {
   title: string;
   description: string;
   affiliation: string | null;
+  affiliationType: "company" | "education" | null;
   slug: string;
 }) => (
   <Link 
     to={`/project/${slug}`}
-    className="group block p-5 bg-card rounded-lg border border-border hover:border-primary/30 hover:shadow-soft transition-all duration-200"
+    className="group block bg-card border border-border rounded hover:border-primary/40 hover:shadow-sm transition-all duration-200"
   >
-    <div className="flex items-start justify-between mb-2">
-      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{title}</h4>
-      <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+    <div className="border-l-2 border-primary p-5">
+      <div className="flex items-start justify-between mb-2">
+        <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors text-sm">{title}</h4>
+        <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 ml-2" />
+      </div>
+      <p className="text-xs text-muted-foreground mb-3 leading-relaxed line-clamp-3">{description}</p>
+      {affiliation && (
+        <div className="flex items-center gap-1.5 text-xs text-primary/70">
+          {affiliationType === "company" ? (
+            <Building2 className="w-3 h-3" />
+          ) : (
+            <GraduationCap className="w-3 h-3" />
+          )}
+          <span>{affiliation}</span>
+        </div>
+      )}
     </div>
-    <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{description}</p>
-    {affiliation && (
-      <p className="text-xs text-muted-foreground">{affiliation}</p>
-    )}
   </Link>
 );
 

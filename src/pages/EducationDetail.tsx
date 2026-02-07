@@ -20,253 +20,157 @@ const EducationDetail = () => {
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="text-center">
           <p className="text-sm text-muted-foreground mb-4">Education not found</p>
-          <Link to="/" className="text-primary hover:underline">
-            ← Back to CV
-          </Link>
+          <Link to="/" className="text-sm text-primary hover:underline">← Back to CV</Link>
         </div>
       </div>
     );
   }
 
-  // Collect categorized skills from related projects
-  const projectProgramming = education.related_projects.flatMap(
-    (p) => p.programming_skills || []
-  );
-  const projectTools = education.related_projects.flatMap(
-    (p) => p.tool_skills || []
-  );
-  const projectDomainSkills = education.related_projects.flatMap(
-    (p) => p.domain_skills || []
-  );
+  const projectProgramming = education.related_projects.flatMap((p) => p.programming_skills || []);
+  const projectTools = education.related_projects.flatMap((p) => p.tool_skills || []);
+  const projectDomainSkills = education.related_projects.flatMap((p) => p.domain_skills || []);
 
-  const categorizedTags = {
-    programming: [...new Set(projectProgramming)],
-    tools: [...new Set(projectTools)],
-    skills: [...new Set(projectDomainSkills)],
-  };
-
-  // Education's own skills (from YAML)
   const eduProgramming = (education as any).programming_skills || [];
   const eduTools = (education as any).tool_skills || [];
   const eduSkills = (education as any).domain_skills || [];
 
-  // ---- COMBINE EVERYTHING INTO ONE TECH STACK ----
-  const combinedProgramming = [
-    ...new Set([...categorizedTags.programming, ...eduProgramming]),
-  ];
-
-  const combinedTools = [
-    ...new Set([...categorizedTags.tools, ...eduTools]),
-  ];
-
-  const combinedSkills = [
-    ...new Set([...categorizedTags.skills, ...eduSkills]),
-  ];
+  const combinedProgramming = [...new Set([...projectProgramming, ...eduProgramming])];
+  const combinedTools = [...new Set([...projectTools, ...eduTools])];
+  const combinedSkills = [...new Set([...projectDomainSkills, ...eduSkills])];
 
   const hasCombinedStack =
-    combinedProgramming.length > 0 ||
-    combinedTools.length > 0 ||
-    combinedSkills.length > 0;
+    combinedProgramming.length > 0 || combinedTools.length > 0 || combinedSkills.length > 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <GeometricBackground />
 
-      <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-24">
-        {/* Back link */}
+      <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-20">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-10"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to CV
         </Link>
 
-        {/* Header */}
-        <header className="mb-12">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
+        <header className="mb-10 bg-card border border-border rounded p-8">
+          <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">
             Education
           </p>
-          <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-3">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1">
             {education.degree}
           </h1>
-          <p className="text-xl text-muted-foreground font-light mb-2">
+          <p className="text-lg text-muted-foreground mb-3">
             {education.institution}
           </p>
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
             <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-3.5 h-3.5" />
               <span>{education.year}</span>
             </div>
-            {education.location && (
-              <span>{education.location}</span>
-            )}
-            {education.honours && (
-              <span>{education.honours}</span>
-            )}
+            {education.location && <span>{education.location}</span>}
           </div>
           {education.specialization && (
-            <p className="text-muted-foreground">
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                Specialization:{" "}
-              </span>
+            <p className="text-muted-foreground text-sm">
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest">Specialization: </span>
               {education.specialization}
             </p>
           )}
           {education.thesis && (
-            <p className="text-muted-foreground leading-relaxed max-w-2xl mt-2">
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                Thesis:{" "}
-              </span>
+            <p className="text-muted-foreground text-sm mt-2">
+              <span className="text-xs font-semibold text-primary uppercase tracking-widest">Thesis: </span>
               {education.thesis}
             </p>
           )}
         </header>
 
-        {/* Related Projects */}
         {education.related_projects.length > 0 && (
           <Section title="Projects">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-2 gap-5">
               {education.related_projects.map((project) => (
                 <Link
                   key={project.id}
                   to={`/project/${project.slug || project.id}`}
-                  className="group block p-5 bg-card rounded-lg border border-border hover:border-primary/30 hover:shadow-soft transition-all duration-200"
+                  className="group block bg-card border border-border rounded hover:border-primary/40 hover:shadow-sm transition-all duration-200"
                 >
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h4>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                  </div>
-                  {project.description && (
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {project.description}
-                    </p>
-                  )}
-                  {project.tags && project.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  <div className="border-l-2 border-primary p-5">
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h4>
+                      <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 ml-2" />
                     </div>
-                  )}
+                    {project.description && (
+                      <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">{project.description}</p>
+                    )}
+                  </div>
                 </Link>
               ))}
             </div>
           </Section>
         )}
 
-        {/* Coursework */}
-        {education.structured_coursework &&
-          education.structured_coursework.length > 0 && (
-            <Section title="Coursework">
-              <ul className="space-y-2">
-                {education.structured_coursework.map((course) => (
-                  <li
-                    key={course.id}
-                    className="text-muted-foreground text-sm"
-                  >
-                    {course.name}
-                  </li>
-                ))}
-              </ul>
-            </Section>
-          )}
+        {education.structured_coursework && education.structured_coursework.length > 0 && (
+          <Section title="Coursework">
+            <ul className="space-y-1.5">
+              {education.structured_coursework.map((course) => (
+                <li key={course.id} className="text-sm text-muted-foreground flex gap-3">
+                  <span className="text-primary font-bold">—</span>
+                  {course.name}
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
 
-        {/* ---- SINGLE MERGED TECHNICAL STACK SECTION ---- */}
         {hasCombinedStack && (
           <Section title="Technical Stack">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-6">
               {combinedProgramming.length > 0 && (
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                    Languages
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {combinedProgramming.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <SkillGroup label="Languages" items={combinedProgramming} />
               )}
-
               {combinedTools.length > 0 && (
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                    Tools & Frameworks
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {combinedTools.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <SkillGroup label="Tools & Frameworks" items={combinedTools} />
               )}
-
               {combinedSkills.length > 0 && (
-                <div>
-                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-3">
-                    Expertise
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {combinedSkills.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1.5 rounded-md bg-secondary text-sm text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <SkillGroup label="Domain Expertise" items={combinedSkills} />
               )}
             </div>
           </Section>
         )}
 
-        {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground text-center">
-            <Link to="/" className="hover:text-primary transition-colors">
-              ← Back to CV
-            </Link>
-          </p>
+        <footer className="mt-16 pt-6 border-t border-border text-center">
+          <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
+            ← Back to CV
+          </Link>
         </footer>
       </main>
     </div>
   );
 };
 
-const Section = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <section className="mb-14">
-    <div className="flex items-center gap-3 mb-6">
-      <h2 className="text-lg font-semibold tracking-tight text-foreground">{title}</h2>
+const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <section className="mb-10">
+    <div className="flex items-center gap-4 mb-5">
+      <h2 className="text-sm font-bold uppercase tracking-widest text-primary">{title}</h2>
       <div className="flex-1 h-px bg-border" />
     </div>
     {children}
   </section>
+);
+
+const SkillGroup = ({ label, items }: { label: string; items: string[] }) => (
+  <div>
+    <h4 className="text-xs font-semibold text-primary uppercase tracking-widest mb-3">{label}</h4>
+    <div className="flex flex-wrap gap-1.5">
+      {items.map((item) => (
+        <span key={item} className="px-2.5 py-1 text-xs bg-secondary text-secondary-foreground rounded">
+          {item}
+        </span>
+      ))}
+    </div>
+  </div>
 );
 
 export default EducationDetail;

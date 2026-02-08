@@ -5,9 +5,6 @@
   year: 2020
   specialization: dynamical systems
   thesis: unfinished
-  programming: []
+  programming: [MATLAB]
   tools: []
-  skills:
-    - Dynamical Systems
-    - Mathematical Analysis
-  id: 2
+  skills: [Dynamical Systems, Mathematical Analysis, PDEs, Mathematical Analysis, Differential Theory]

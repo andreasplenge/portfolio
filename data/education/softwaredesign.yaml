@@ -8,11 +8,13 @@
   programming:
     - Python
     - Java
+    - F#
   tools:
     - TensorFlow
     - Numpy
   skills:
     - Machine Learning
     - Algorithm Design
-    - Data Structures
+    - Software Engineering
+    - Programming
   id: 3

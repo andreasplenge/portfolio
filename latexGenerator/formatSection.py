@@ -6,12 +6,15 @@ def formatExperience(experience):
     promotion = experience.get("promotion")
     skills = experience["skills"]
     description = experience["description"]
+    programming = experience["programming"]
+    tools = experience["tools"]
 
     promotion_tex = (
         f" \\grayed{{{promotion}}}" if promotion else ""
     )
+    all_skills = skills + programming + tools
 
-    skills_tex = ", ".join(skills)
+    skills_tex = ", ".join(all_skills)
 
     return f"""
 {{\\large\\textbf{{{company}}}}}\\dates{{{start} -- {end}}}

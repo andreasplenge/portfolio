@@ -7,9 +7,9 @@
   promotion: prev. ML Engineer
   location: Copenhagen, Denmark
 
-  programming: [Python, TypeScript, noSQL]
-  tools: [Power BI, Pandas, Numpy, TensorFlow]
-  skills: []
+  programming: [TypeScript, noSQL, Python, SQL]
+  tools: [Pandas, Numpy, TensorFlow, Power BI, Kubernetes, Docker, Google Cloud]
+  skills: [Algorithm Design, Energy Systems, Energy Markets]
 
   description: |
     Designed and developed the core grid stabilization algorithm, orchestrating real-time coordination of household devices using scalable combinatorial methods and linear-complexity optimizations. Conducted code reviews and collaborated with the team to ensure robustness and maintainability.

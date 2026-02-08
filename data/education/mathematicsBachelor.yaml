@@ -5,10 +5,7 @@
   specialization: mathematical finance
   location: Copenhagen, Denmark
   thesis: Explored the connection between the heat equation and Brownian motion, combining advanced concepts in probability and differential equations.
-  programming: []
+  programming: [R]
   tools: []
-  skills:
-    - Probability Theory
-    - Differential Equations
-    - Mathematical Finance
+  skills: [Stochastic Calculus, Probability Theory, PDEs, Differential Theory, Mathematical Analysis, Statistics]
   id: 1

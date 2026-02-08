@@ -46,9 +46,6 @@ const ProjectDetail = () => {
         </Link>
 
         <header className="mb-10 bg-card border border-border rounded p-8">
-          <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">
-            Key Project
-          </p>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">
             {project.title}
           </h1>
@@ -58,7 +55,7 @@ const ProjectDetail = () => {
         </header>
 
         {project.full_description && (
-          <Section title="Overview">
+          <div className="mb-10">
             <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
               {project.full_description}
             </p>
@@ -71,7 +68,7 @@ const ProjectDetail = () => {
                 />
               </div>
             )}
-          </Section>
+          </div>
         )}
 
         {hasRelation && (
@@ -145,10 +142,8 @@ const ProjectDetail = () => {
           </Section>
         )}
 
-        <footer className="mt-16 pt-6 border-t border-border text-center">
-          <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-            ← Back to CV
-          </Link>
+        <footer className="mt-16 pt-6 border-t border-border flex justify-center">
+          <img src="/sign.png" alt="Signature" className="h-14 opacity-60" />
         </footer>
       </main>
     </div>

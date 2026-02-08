@@ -128,31 +128,28 @@ const CV = () => {
       content: (
         <div className="space-y-5">
           {education.map((edu) => (
-            <div key={edu.id} className="flex justify-between items-start flex-wrap gap-2">
-              <div>
+            <div key={edu.id}>
+              <div className="flex items-center gap-2">
                 <h4 className="font-semibold text-foreground">{edu.degree}</h4>
-                <p className="text-muted-foreground text-sm">{edu.institution}</p>
-                {edu.specialization && (
-                  <p className="text-muted-foreground text-sm mt-0.5">
-                    {edu.specialization}
-                  </p>
-                )}
-                {edu.thesis && (
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Thesis: "{edu.thesis}"
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-muted-foreground">{edu.year}</span>
                 <Link
                   to={`/education/${edu.id}`}
-                  className="p-1.5 rounded text-muted-foreground hover:bg-secondary hover:text-primary transition-colors"
+                  className="p-1 rounded text-muted-foreground hover:bg-secondary hover:text-primary transition-colors flex-shrink-0"
                   title="View details"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
               </div>
+              <p className="text-muted-foreground text-sm">{edu.institution}</p>
+              {edu.specialization && (
+                <p className="text-muted-foreground text-sm mt-0.5">
+                  Specialized in {edu.specialization}
+                </p>
+              )}
+              {edu.thesis && (
+                <p className="text-sm text-muted-foreground mt-1">
+                  Thesis: "{edu.thesis}"
+                </p>
+              )}
             </div>
           ))}
         </div>
@@ -237,7 +234,7 @@ const CV = () => {
 
       <main className="relative max-w-4xl mx-auto px-6 py-16 md:py-20">
         {/* Header */}
-        <header className="mb-14 bg-card border border-border rounded p-8">
+        <header className="mb-14">
           <div className="flex items-start justify-between flex-wrap gap-6">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-1">
@@ -286,8 +283,17 @@ const CV = () => {
           </div>
         </header>
 
-        {/* Render sections */}
-        {sections.map((section) => (
+        {/* Profile summary without section header */}
+        {generalInfo?.summary && (
+          <div className="mb-12">
+            <p className="text-muted-foreground leading-relaxed max-w-3xl">
+              {generalInfo.summary}
+            </p>
+          </div>
+        )}
+
+        {/* Render sections (excluding Profile which is rendered above) */}
+        {sections.filter(s => s.title !== "Profile").map((section) => (
           <Section key={section.title} title={section.title}>
             {section.content}
           </Section>

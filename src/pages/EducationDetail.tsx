@@ -54,10 +54,7 @@ const EducationDetail = () => {
           Back to CV
         </Link>
 
-        <header className="mb-10 bg-card border border-border rounded p-8">
-          <p className="text-xs font-semibold text-primary uppercase tracking-widest mb-2">
-            Education
-          </p>
+        <header className="mb-10">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-1">
             {education.degree}
           </h1>
@@ -140,10 +137,8 @@ const EducationDetail = () => {
           </Section>
         )}
 
-        <footer className="mt-16 pt-6 border-t border-border text-center">
-          <Link to="/" className="text-xs text-muted-foreground hover:text-primary transition-colors">
-            ← Back to CV
-          </Link>
+        <footer className="mt-16 pt-6 border-t border-border flex justify-center">
+          <img src="/sign.png" alt="Signature" className="h-14 opacity-60" />
         </footer>
       </main>
     </div>
